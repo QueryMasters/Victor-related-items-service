@@ -1,155 +1,81 @@
--- ---
--- Globals
--- ---
+DROP DATABASE IF EXISTS fec;
 
--- SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
--- SET FOREIGN_KEY_CHECKS=0;
+CREATE DATABASE fec;
 
--- ---
--- Table 'Reviews'
--- 
--- ---
+USE fec;
 
-DROP TABLE IF EXISTS `Reviews`;
-		
-CREATE TABLE `Reviews` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `Text` VARCHAR NULL DEFAULT NULL,
-  `Headline` VARCHAR NULL DEFAULT NULL,
-  `photoUrl` VARCHAR NULL DEFAULT NULL,
-  `Rating` INTEGER NULL DEFAULT NULL,
-  `id_Item` INTEGER NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+DROP TABLE IF EXISTS items;
+
+CREATE TABLE item (
+  id int NOT NULL AUTO_INCREMENT,
+  itemName VARCHAR(255) DEFAULT NULL,
+  price INTEGER DEFAULT NULL,
+  numberOfReviews INTEGER  DEFAULT NULL,
+  averageStarRating INTEGER  DEFAULT NULL,
+  availableOnPrime bit  DEFAULT NULL,
+  PRIMARY KEY (id)
 );
 
--- ---
--- Table 'Item'
--- 
--- ---
+DROP TABLE IF EXISTS reviews;
 
-DROP TABLE IF EXISTS `Item`;
-		
-CREATE TABLE `Item` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `Item Name` VARCHAR NULL DEFAULT NULL,
-  `Price` INTEGER NULL DEFAULT NULL,
-  `number of reviews` INTEGER NULL DEFAULT NULL,
-  `average star rating` INTEGER NULL DEFAULT NULL,
-  `available on prime` bit NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE reviews (
+    id int NOT NULL AUTO_INCREMENT,
+    text VARCHAR(255) DEFAULT NULL,
+    headline VARCHAR(255) DEFAULT NULL,
+    photoUrl VARCHAR(255) DEFAULT NULL,
+    rating VARCHAR(255) DEFAULT NULL,
+    id_item INTEGER DEFAULT NULL,
+    FOREIGN KEY (id_item) REFERENCES item(id),
+    PRIMARY KEY (id)
 );
 
--- ---
--- Table 'Related Items'
--- 
--- ---
+DROP TABLE IF EXISTS relatedItems;
 
-DROP TABLE IF EXISTS `Related Items`;
-		
-CREATE TABLE `Related Items` (
-  `id_Item` INTEGER NULL DEFAULT NULL,
-  `id_Item` INTEGER NULL DEFAULT NULL,
-  PRIMARY KEY ()
+CREATE TABLE relatedItems (
+    id_item1 INTEGER DEFAULT NULL,
+    id_item2 INTEGER DEFAULT NULL,
+    FOREIGN KEY (id_item1) REFERENCES item (id),
+    FOREIGN KEY (id_item2) REFERENCES item (id)
 );
 
--- ---
--- Table 'Frequently Bought Together'
--- 
--- ---
+DROP TABLE IF EXISTS frequentlyBoughtTogether;
 
-DROP TABLE IF EXISTS `Frequently Bought Together`;
-		
-CREATE TABLE `Frequently Bought Together` (
-  `id_Item` INTEGER NULL DEFAULT NULL,
-  `id_Item` INTEGER NULL DEFAULT NULL,
-  PRIMARY KEY ()
+CREATE TABLE frequentlyBoughtTogether (
+    id_item1 INTEGER DEFAULT NULL,
+    id_item2 INTEGER DEFAULT NULL,
+    FOREIGN KEY (id_item1) REFERENCES item (id),
+    FOREIGN KEY (id_item2) REFERENCES item (id)
 );
 
--- ---
--- Table 'Questions'
--- 
--- ---
+DROP TABLE IF EXISTS questions;
 
-DROP TABLE IF EXISTS `Questions`;
-		
-CREATE TABLE `Questions` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `Title` VARCHAR NULL DEFAULT NULL,
-  `votes` INTEGER NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE questions (
+    id int NOT NULL AUTO_INCREMENT,
+    title VARCHAR(255) DEFAULT NULL,
+    votes INTEGER DEFAULT NULL,
+    PRIMARY KEY (id)
 );
 
--- ---
--- Table 'Answers'
--- 
--- ---
-
-DROP TABLE IF EXISTS `Answers`;
+DROP TABLE IF EXISTS answers;
 		
-CREATE TABLE `Answers` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `text` VARCHAR NULL DEFAULT NULL,
-  `username` VARCHAR NULL DEFAULT NULL,
-  `seller` bit NULL DEFAULT NULL,
-  `id_Questions` INTEGER NULL DEFAULT NULL,
-  `Date` DATETIME NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE answers (
+  id int NOT NULL AUTO_INCREMENT,
+  text VARCHAR(255) NULL DEFAULT NULL,
+  username VARCHAR(255) NULL DEFAULT NULL,
+  seller bit DEFAULT NULL,
+  id_questions INTEGER DEFAULT NULL,
+  date DATETIME DEFAULT NULL,
+  FOREIGN KEY (id_questions) REFERENCES questions (id),
+  PRIMARY KEY (id)
 );
 
--- ---
--- Table 'Feature Ratings'
--- 
--- ---
-
-DROP TABLE IF EXISTS `Feature Ratings`;
+DROP TABLE IF EXISTS featureRatings;
 		
-CREATE TABLE `Feature Ratings` (
-  `id` INTEGER NULL AUTO_INCREMENT DEFAULT NULL,
-  `Type of Feature` VARCHAR NULL DEFAULT NULL,
-  `Rating` INTEGER NULL DEFAULT NULL,
-  `id_Reviews` INTEGER NULL DEFAULT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE featureRatings (
+  id INTEGER NOT NULL AUTO_INCREMENT,
+  typeOfFeature VARCHAR(255) DEFAULT NULL,
+  rating INTEGER DEFAULT NULL,
+  id_reviews INTEGER DEFAULT NULL,
+  FOREIGN KEY (id_reviews) REFERENCES reviews (id),
+  PRIMARY KEY (id)
 );
-
--- ---
--- Foreign Keys 
--- ---
-
-ALTER TABLE `Reviews` ADD FOREIGN KEY (id_Item) REFERENCES `Item` (`id`);
-ALTER TABLE `Related Items` ADD FOREIGN KEY (id_Item) REFERENCES `Item` (`id`);
-ALTER TABLE `Related Items` ADD FOREIGN KEY (id_Item) REFERENCES `Item` (`id`);
-ALTER TABLE `Frequently Bought Together` ADD FOREIGN KEY (id_Item) REFERENCES `Item` (`id`);
-ALTER TABLE `Frequently Bought Together` ADD FOREIGN KEY (id_Item) REFERENCES `Item` (`id`);
-ALTER TABLE `Answers` ADD FOREIGN KEY (id_Questions) REFERENCES `Questions` (`id`);
-ALTER TABLE `Feature Ratings` ADD FOREIGN KEY (id_Reviews) REFERENCES `Reviews` (`id`);
-
--- ---
--- Table Properties
--- ---
-
--- ALTER TABLE `Reviews` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `Item` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `Related Items` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `Frequently Bought Together` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `Questions` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `Answers` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
--- ALTER TABLE `Feature Ratings` ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
-
--- ---
--- Test Data
--- ---
-
--- INSERT INTO `Reviews` (`id`,`Text`,`Headline`,`photoUrl`,`Rating`,`id_Item`) VALUES
--- ('','','','','','');
--- INSERT INTO `Item` (`id`,`Item Name`,`Price`,`number of reviews`,`average star rating`,`available on prime`) VALUES
--- ('','','','','','');
--- INSERT INTO `Related Items` (`id_Item`,`id_Item`) VALUES
--- ('','');
--- INSERT INTO `Frequently Bought Together` (`id_Item`,`id_Item`) VALUES
--- ('','');
--- INSERT INTO `Questions` (`id`,`Title`,`votes`) VALUES
--- ('','','');
--- INSERT INTO `Answers` (`id`,`text`,`username`,`seller`,`id_Questions`,`Date`) VALUES
--- ('','','','','','');
--- INSERT INTO `Feature Ratings` (`id`,`Type of Feature`,`Rating`,`id_Reviews`) VALUES
--- ('','','','');
