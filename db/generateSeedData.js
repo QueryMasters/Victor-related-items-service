@@ -178,7 +178,6 @@ var generateQuestions = (num) => {
     return questionsArr;
 }
 
-
 var generateAnswers = (num) => {
     var answersArr = [];
     for (var i = 0; i < num; i++) {
