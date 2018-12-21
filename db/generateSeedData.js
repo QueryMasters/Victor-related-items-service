@@ -1,44 +1,43 @@
 const faker = require('faker');
 
-// Generate Item Reviews
-var generateItems = (num) => {
+// Generate Item (num is total number of items), number of reviews is seeded as random for now
+let generateItems = (num) => {
     var items = [];
     for (var i = 0; i < num; i++) {
         var itemObject = {
-            itemId: i,
             itemName: faker.commerce.productName(),
+            numberOfReviews: Math.floor(Math.random() * 10000 + 1),
             price: faker.commerce.price(),
-            averageStars: Math.floor(Math.random() * (5-1)+1),
+            averageStarRating: Math.floor(Math.random() * (5)+1),
             availableOnPrime: (Math.random() < .8),
             image: faker.image.business()
         };
 
         items.push(itemObject);
     }
-
-    console.log(items)
+    // console.log(items);
     return items; 
 };
 
-// Generate Random Reviews
-var generateReviews = (num) => {
+// Generate Random Reviews, creates num reviews over numItems randomly (each review will have a random item number)
+let generateReviews = (num, numItems) => {
     var reviews = [];
     for (var i = 0; i < num; i++) {
         var reviewObject = {
-            text: faker.lorem.sentence(),
+            body: faker.lorem.sentence(),
             headline: faker.lorem.paragraph(),
             photoUrl: faker.image.image(),
-            rating: Math.floor(Math.random() * (5-1)+1),
-            item_id: Math.floor(Math.random() * 99 + 1)
+            rating: Math.floor(Math.random() * (5 - 1) + 1),
+            id_item: Math.floor(Math.random() * (numItems - 1) + 1)
         };
         reviews.push(reviewObject);
     }
-    console.log(reviews);
+    // console.log(reviews);
     return reviews;
 };
 
 // Generate Singles, Pairs or Trios of frequently together items by id 1 - 100
-var generateFrequentlyTogether = (num) => {
+let generateFrequentlyTogether = (num) => {
     var rangeOfItems = [...Array(num + 1).keys()];
     rangeOfItems.shift();
     var returnArr = [];
@@ -46,12 +45,12 @@ var generateFrequentlyTogether = (num) => {
         if (rangeOfItems.length > 3) {
             var randThroughThree = Math.floor(Math.random() * (3 - 1 ) + 1);
             var tempRandArr = [];
-
             for (var i = 0; i < randThroughThree; i++) {
                 var randomItemIdIndex = Math.floor(Math.random() * (rangeOfItems.length - 1 ) + 1);
-                tempRandArr.push(rangeOfItems[randomItemIdIndex]);
-                rangeOfItems.splice(randomItemIdIndex, 1);
-                
+                if (randThroughThree !== 1) {
+                    tempRandArr.push(rangeOfItems[randomItemIdIndex]);
+                }
+                rangeOfItems.splice(randomItemIdIndex, 1);               
             }
 
             var generatePairs = (arr) => {
@@ -72,7 +71,7 @@ var generateFrequentlyTogether = (num) => {
 
         } else {
             for (var i = 0; i < rangeOfItems.length; i++) {
-                returnArr.push([rangeOfItems[i]]);
+                // returnArr.push([rangeOfItems[i]]);
                 rangeOfItems.splice(i, 1);
             }
         }
@@ -81,8 +80,8 @@ var generateFrequentlyTogether = (num) => {
     return returnArr;
 };
 
-// Generate lists of related items
-var generateRelatedItems = (num) => {
+// Generate lists of related items for num items
+let generateRelatedItems = (num) => {
     var rangeOfItems = [...Array(num + 1).keys()];
     rangeOfItems.shift();
     var returnArr = [];
@@ -94,8 +93,7 @@ var generateRelatedItems = (num) => {
             for (var i = 0; i < randThroughThree; i++) {
                 var randomItemIdIndex = Math.floor(Math.random() * (rangeOfItems.length - 1 ) + 1);
                 tempRandArr.push(rangeOfItems[randomItemIdIndex]);
-                rangeOfItems.splice(randomItemIdIndex, 1);
-                
+                rangeOfItems.splice(randomItemIdIndex, 1);  
             }
 
             var generatePairs = (arr) => {
@@ -121,8 +119,7 @@ var generateRelatedItems = (num) => {
             for (var i = 0; i < randThroughThree; i++) {
                 var randomItemIdIndex = Math.floor(Math.random() * (rangeOfItems.length - 1 ) + 1);
                 tempRandArr.push(rangeOfItems[randomItemIdIndex]);
-                rangeOfItems.splice(randomItemIdIndex, 1);
-                
+                rangeOfItems.splice(randomItemIdIndex, 1);               
             }
 
             var generatePairs = (arr) => {
@@ -143,33 +140,34 @@ var generateRelatedItems = (num) => {
 
         } else {
             for (var i = 0; i < rangeOfItems.length; i++) {
-                returnArr.push([rangeOfItems[i]]);
+                // returnArr.push([rangeOfItems[i]]);
                 rangeOfItems.splice(i, 1);
             }
         }
         
     }
-    console.log(returnArr);
+    // console.log(returnArr);
     return returnArr;
 };
 
-var generateFeatureRatings = (num) => {
+// Generate up to 4 random features for num items (this has an id attached to it and I am not sure how to deal with this)
+let generateFeatureRatings = (num) => {
     var featureRating = [];
     for (var i = 0; i < num; i++) {
         var featureObject = {
             typeOfFeature: faker.commerce.productAdjective(),
-            rating: Math.floor(Math.random() * (5-1)+1),
-            rating_id: i
+            rating: Math.floor(Math.random() * (4)),
+            id_reviews: i
         }
         featureRating.push(featureObject);
     }
     return featureRating;
 }
-
-var generateQuestions = (num) => {
-    var questionsArr = [];
-    for (var i = 0; i < num; i++) {
-        var question = {
+// Generate num questions
+let generateQuestions = (num) => {
+    let questionsArr = [];
+    for (let i = 0; i < num; i++) {
+        let question = {
             title: faker.hacker.phrase(),
             votes: Math.floor(Math.random() * (10-1)+1)
         }
@@ -177,25 +175,28 @@ var generateQuestions = (num) => {
     }
     return questionsArr;
 }
-
-var generateAnswers = (num) => {
-    var answersArr = [];
-    for (var i = 0; i < num; i++) {
-        var answer = {
-            text: faker.lorem.sentence(),
+// Generate num answers for numQuestions
+let generateAnswers = (num, numQuestions) => {
+    let answersArr = [];
+    for (let i = 0; i < num; i++) {
+        let answer = {
+            body: faker.lorem.sentence(),
             username: faker.internet.userName(),
-            date: new Date(),
             seller: faker.random.boolean(),
-            id_questions: Math.floor(Math.random() * 99 + 1)
+            date: faker.date.past(),
+            id_questions: Math.floor(Math.random() * (numQuestions - 1) + 1)
         }
         answersArr.push(answer);
     }
+    // console.log(answersArr);
     return answersArr;
 }
-// 
 
-// generateItems(10);
-// generateReviews(10);
-// generateFrequentlyTogether(10);
-// generateFrequentlyTogether(100);
-// generateRelatedItems(1000);
+module.exports.generateItems = generateItems;
+module.exports.generateReviews = generateReviews;
+module.exports.generateFrequentlyTogether = generateFrequentlyTogether;
+module.exports.generateRelatedItems = generateRelatedItems;
+module.exports.generateFeatureRatings = generateFeatureRatings;
+module.exports.generateQuestions = generateQuestions;
+module.exports.generateAnswers = generateAnswers;
+
