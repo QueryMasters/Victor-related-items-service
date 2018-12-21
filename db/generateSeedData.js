@@ -8,7 +8,7 @@ let generateItems = (num) => {
             itemName: faker.commerce.productName(),
             numberOfReviews: Math.floor(Math.random() * 10000 + 1),
             price: faker.commerce.price(),
-            averageStarRating: Math.floor(Math.random() * (5)+1),
+            averageStarRating: Math.floor(Math.random() * (5 - 1)+1),
             availableOnPrime: (Math.random() < .8),
             image: faker.image.business()
         };
