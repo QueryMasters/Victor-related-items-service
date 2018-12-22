@@ -194,11 +194,12 @@ let generateAnswers = (num, numQuestions) => {
 
 
 
-module.exports.generateItems = generateItems;
-module.exports.generateReviews = generateReviews;
-module.exports.generateFrequentlyTogether = generateFrequentlyTogether;
-module.exports.generateRelatedItems = generateRelatedItems;
-module.exports.generateFeatureRatings = generateFeatureRatings;
-module.exports.generateQuestions = generateQuestions;
-module.exports.generateAnswers = generateAnswers;
-
+module.exports = {
+    generateItems,
+    generateReviews,
+    generateFrequentlyTogether,
+    generateRelatedItems,
+    generateFeatureRatings,
+    generateQuestions,
+    generateAnswers,
+};
