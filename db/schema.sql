@@ -13,6 +13,7 @@ CREATE TABLE item (
   numberOfReviews INTEGER  DEFAULT NULL,
   averageStarRating INTEGER  DEFAULT NULL,
   availableOnPrime bit  DEFAULT NULL,
+  image VARCHAR(255) DEFAULT NULL,
   PRIMARY KEY (id)
 );
 
@@ -20,7 +21,7 @@ DROP TABLE IF EXISTS reviews;
 
 CREATE TABLE reviews (
     id int NOT NULL AUTO_INCREMENT,
-    text VARCHAR(255) DEFAULT NULL,
+    body VARCHAR(5000) DEFAULT NULL,
     headline VARCHAR(255) DEFAULT NULL,
     photoUrl VARCHAR(255) DEFAULT NULL,
     rating VARCHAR(255) DEFAULT NULL,
@@ -60,11 +61,11 @@ DROP TABLE IF EXISTS answers;
 		
 CREATE TABLE answers (
   id int NOT NULL AUTO_INCREMENT,
-  text VARCHAR(255) NULL DEFAULT NULL,
+  body VARCHAR(5000) NULL DEFAULT NULL,
   username VARCHAR(255) NULL DEFAULT NULL,
   seller bit DEFAULT NULL,
-  id_questions INTEGER DEFAULT NULL,
   date DATETIME DEFAULT NULL,
+  id_questions INTEGER DEFAULT NULL,
   FOREIGN KEY (id_questions) REFERENCES questions (id),
   PRIMARY KEY (id)
 );
