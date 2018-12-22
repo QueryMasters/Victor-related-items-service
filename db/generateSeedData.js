@@ -2,13 +2,13 @@ const faker = require('faker');
 
 // Generate Item (num is total number of items), number of reviews is seeded as random for now
 let generateItems = (num) => {
-    var items = [];
-    for (var i = 0; i < num; i++) {
-        var itemObject = {
+    let items = [];
+    for (let i = 0; i < num; i++) {
+        let itemObject = {
             itemName: faker.commerce.productName(),
             numberOfReviews: Math.floor(Math.random() * 10000 + 1),
             price: faker.commerce.price(),
-            averageStarRating: Math.floor(Math.random() * (5)+1),
+            averageStarRating: Math.floor(Math.random() * (5 - 1) + 1),
             availableOnPrime: (Math.random() < .8),
             image: faker.image.business()
         };
@@ -21,9 +21,9 @@ let generateItems = (num) => {
 
 // Generate Random Reviews, creates num reviews over numItems randomly (each review will have a random item number)
 let generateReviews = (num, numItems) => {
-    var reviews = [];
-    for (var i = 0; i < num; i++) {
-        var reviewObject = {
+    let reviews = [];
+    for (let i = 0; i < num; i++) {
+        let reviewObject = {
             body: faker.lorem.sentence(),
             headline: faker.lorem.paragraph(),
             photoUrl: faker.image.image(),
@@ -38,28 +38,28 @@ let generateReviews = (num, numItems) => {
 
 // Generate Singles, Pairs or Trios of frequently together items by id 1 - 100
 let generateFrequentlyTogether = (num) => {
-    var rangeOfItems = [...Array(num + 1).keys()];
+    let rangeOfItems = [...Array(num + 1).keys()];
     rangeOfItems.shift();
-    var returnArr = [];
+    let returnArr = [];
     while (rangeOfItems.length > 0) {
         if (rangeOfItems.length > 3) {
-            var randThroughThree = Math.floor(Math.random() * (3 - 1 ) + 1);
-            var tempRandArr = [];
-            for (var i = 0; i < randThroughThree; i++) {
-                var randomItemIdIndex = Math.floor(Math.random() * (rangeOfItems.length - 1 ) + 1);
+            let randThroughThree = Math.floor(Math.random() * (3 - 1 ) + 1);
+            let tempRandArr = [];
+            for (let i = 0; i < randThroughThree; i++) {
+                let randomItemIdIndex = Math.floor(Math.random() * (rangeOfItems.length - 1 ) + 0);
                 if (randThroughThree !== 1) {
                     tempRandArr.push(rangeOfItems[randomItemIdIndex]);
                 }
                 rangeOfItems.splice(randomItemIdIndex, 1);               
             }
 
-            var generatePairs = (arr) => {
-                var pairsArr = [];
+            let generatePairs = (arr) => {
+                let pairsArr = [];
                 if (arr.length === 1) {
                     pairsArr.push([arr[0]]);
                 }
-                for (var i = 0; i < arr.length; i++) {
-                    for(var j = 0; j < arr.length; j++) {
+                for (let i = 0; i < arr.length; i++) {
+                    for(let j = 0; j < arr.length; j++) {
                         if (i !== j) {
                             pairsArr.push([arr[i], arr[j]]);
                         }
@@ -70,8 +70,7 @@ let generateFrequentlyTogether = (num) => {
             returnArr = returnArr.concat(generatePairs(tempRandArr));
 
         } else {
-            for (var i = 0; i < rangeOfItems.length; i++) {
-                // returnArr.push([rangeOfItems[i]]);
+            for (let i = 0; i < rangeOfItems.length; i++) {
                 rangeOfItems.splice(i, 1);
             }
         }
@@ -91,7 +90,7 @@ let generateRelatedItems = (num) => {
             var tempRandArr = [];
 
             for (var i = 0; i < randThroughThree; i++) {
-                var randomItemIdIndex = Math.floor(Math.random() * (rangeOfItems.length - 1 ) + 1);
+                var randomItemIdIndex = Math.floor(Math.random() * (rangeOfItems.length - 1 ) + 0);
                 tempRandArr.push(rangeOfItems[randomItemIdIndex]);
                 rangeOfItems.splice(randomItemIdIndex, 1);  
             }
@@ -191,6 +190,9 @@ let generateAnswers = (num, numQuestions) => {
     // console.log(answersArr);
     return answersArr;
 }
+
+
+
 
 module.exports.generateItems = generateItems;
 module.exports.generateReviews = generateReviews;
