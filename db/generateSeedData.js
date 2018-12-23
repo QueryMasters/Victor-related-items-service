@@ -1,4 +1,5 @@
 const faker = require('faker');
+import productImageURLs from './productImages.js';
 
 // Generate Item (num is total number of items), number of reviews is seeded as random for now
 let generateItems = (num) => {
