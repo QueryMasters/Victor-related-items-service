@@ -36,35 +36,35 @@ let totalReviews = 100;
 let totalQ = 100;
 
 let items = generateItems(totalItems);
-queryInterface.bulkInsert('item', items)
-.then(() => {
-    let frequentItems = generateFrequentlyTogether(totalItems);
-    // async functions for each of these  
-    frequentItems.forEach(tuple => {
-        let id1 = tuple[0];
-        let id2 = tuple[1];
-        connection.query(`INSERT INTO frequentlyBoughtTogether (id_item1, id_item2) VALUES ('${id1}', '${id2}')`, (err) => {
-            if (err) {
-                console.log(err);
-            }
-        });
-    });
+// queryInterface.bulkInsert('item', items)
+// .then(() => {
+//     let frequentItems = generateFrequentlyTogether(totalItems);
+//     // async functions for each of these  
+//     frequentItems.forEach(tuple => {
+//         let id1 = tuple[0];
+//         let id2 = tuple[1];
+//         connection.query(`INSERT INTO frequentlyBoughtTogether (id_item1, id_item2) VALUES ('${id1}', '${id2}')`, (err) => {
+//             if (err) {
+//                 console.log(err);
+//             }
+//         });
+//     });
 
-}).then(() => {
-    let relatedItems = generateRelatedItems(totalItems);
-    console.log(relatedItems);
-    // make async
-    relatedItems.forEach(tuple => {
-        let id1 = tuple[0];
-        let id2 = tuple[1];
-        connection.query(`INSERT INTO relatedItems (id_item1, id_item2) VALUES ('${id1}', '${id2}')`, (err) => {
-            if (err) {
-                console.log(err);
-            }
-        });
-    });
+// }).then(() => {
+//     let relatedItems = generateRelatedItems(totalItems);
+//     console.log(relatedItems);
+//     // make async
+//     relatedItems.forEach(tuple => {
+//         let id1 = tuple[0];
+//         let id2 = tuple[1];
+//         connection.query(`INSERT INTO relatedItems (id_item1, id_item2) VALUES ('${id1}', '${id2}')`, (err) => {
+//             if (err) {
+//                 console.log(err);
+//             }
+//         });
+//     });
 
-});
+// });
 
 // It looks like the data is inserting correctly after only running once, but I am getting this error when running this script:
 // 
@@ -81,19 +81,77 @@ queryInterface.bulkInsert('item', items)
 // queryInterface.bulkInsert('relateditems', relatedItems);
 
 let questions = generateQuestions(totalQ);
-queryInterface.bulkInsert('questions', questions);
+// queryInterface.bulkInsert('questions', questions);
 
 // will generate totalAnswers for totalQ's
-let answers = generateAnswers(300, 100);
-queryInterface.bulkInsert('answers', answers);
-
-
-
+let answers = generateAnswers(3 * totalQ, totalQ);
+// queryInterface.bulkInsert('answers', answers);
 
 // I don't actually need to generate any reviews, this is mostly used for posting since no review is ever rendered on any module of mine.
 // let reviews = generateReviews(totalReviews)
 // Similarly for feature ratings, this is mainly for posting
 // let featureRatings = generateFeatureRatings();
 
-// Functions to get everything into db
+// Functions to get everything from db
 
+// 
+// this line isn't working, I want to 
+// Item = sequelize.model('item');
+
+const getAllItems = function (callback) {
+    // sequelize.query('SELECT * FROM item');
+    let queryString = 'SELECT * FROM item';
+    connection.query(queryString, function(err, results, fields) {
+        if (err) {
+            throw err;
+        }
+        callback(err, results);
+    });
+};
+
+const getOneItem = function(id, callback) {
+    let queryString = `SELECT * FROM item WHERE id = ${id}`;
+    connection.query(queryString, function(err, results, fields) {
+        if (err) {
+            throw err;
+        }
+        callback(err, results);
+    });
+}
+
+const getRelated = function(id, callback) {
+    let queryString = `SELECT id_item1 FROM relatedItems WHERE id_item2 = ${id}`;
+    connection.query(queryString, function(err, results, fields) {
+        if (err) {
+            throw err;
+        }
+        callback(err, results);
+    });
+}
+
+const getFrequent = function(id, callback) {
+    let queryString = `SELECT id_item1 FROM frequentlyBoughtTogether WHERE id_item2 = ${id}`;
+    connection.query(queryString, function(err, results, fields) {
+        if (err) {
+            throw err;
+        }
+        callback(err, results);
+    });
+}
+
+const postMessage = function(paramsArr) {
+    let queryString = `INSERT INTO reviews (body, headline, photoUrl, rating, id_item) VALUES`
+    connection.query(queryString, paramsArr, function(err, results, fields){
+        if (err) {
+            throw err;
+        }
+    })
+}
+
+module.exports = {
+    getAllItems,
+    getOneItem,
+    getRelated,
+    getFrequent,
+    postMessage
+};
