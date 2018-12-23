@@ -4,14 +4,13 @@ import RelatedItem from './RelatedItem.jsx';
 
 const RelatedItemList = (props) => {
 
-    let mapped = props.relatedItems.map(element => {
-        console.log(element);
+    let mapped = props.relatedItemInfo.map(element => {
         return <RelatedItem relatedItemData={element}/>
     })
     return (
-        <div>Hello there
+        <div>Customers also bought:
             <ol>
-                {mapped};
+                {mapped}
             </ol>
         </div>
     )
