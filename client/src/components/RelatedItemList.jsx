@@ -10,9 +10,10 @@ const RelatedItemList = (props) => {
         let current = props.relatedItemsCurrent[props.currentArr];
         // console.log('current is', current, 'props.relatedItemsCurrent are ', props.relatedItemsCurrent);
         mapped = current.map(element => {
-            return <RelatedItem relatedItemData={element}/>
+            return <RelatedItem relatedItemData={element} itemClick={props.itemClick}/>
         })
     }
+
     return (
         <div>Customers also bought:
             <span>
@@ -23,6 +24,7 @@ const RelatedItemList = (props) => {
                     </ol>
                 </div>
                 <Arrow arrowClick={props.arrowClick} direction='right'/>
+                
             </span>
         </div>
     )

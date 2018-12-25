@@ -15,7 +15,7 @@ class App extends React.Component {
             relatedItemsCurrent: [],
             currentArr: 0,
             maxRelatedLength: 5,
-            itemId: 40
+            itemId: 2
         }
 
         // click bindings
@@ -24,36 +24,14 @@ class App extends React.Component {
     }
 
     arrowClick(dir) {
-        if (this.state.currentArr === 0) {
-            if (dir === 'left') {
-                this.setState({
-                    currentArr: this.state.relatedItemsCurrent.length - 1
-                });
-            } else if (dir === 'right') {
-                this.setState({
-                    currentArr: this.state.currentArr + 1
-                });
-            }
-        } else if (this.state.currentArr === this.state.relatedItemsCurrent.length - 1) {
-            if (dir === 'left') {
-                this.setState({
-                    currentArr: this.state.currentArr - 1
-                });
-            } else if (dir === 'right') {
-                this.setState({
-                    currentArr: 0
-                });
-            }
-        } else {
-            if (dir === 'left') {
-                this.setState({
-                    currentArr: this.state.currentArr - 1
-                });
-            } else if (dir === 'right') {
-                this.setState({
-                    currentArr: this.state.currentArr + 1
-                });
-            }
+        if (dir === 'right') {
+            this.setState({
+              currentArr: (this.state.currentArr + 1) % this.state.relatedItemsCurrent.length
+            });
+        } else if (dir === 'left') {
+            this.setState({
+              currentArr: (this.state.currentArr - 1) >= 0 ? (this.state.currentArr - 1) : (this.state.relatedItemsCurrent.length - 1)
+            });
         }
     }
 
@@ -69,8 +47,39 @@ class App extends React.Component {
         return chunked;
     }
 
-    itemClick() {
-        
+    itemClick(id) {
+        this.setState({
+            itemId: id,
+            relatedItems: [],
+            relatedItemInfo: [],
+            relatedItemsCurrent: [],
+            currentArr: 0,
+            maxRelatedLength: 5,
+        });
+        axios.get(`/api/related/${this.state.itemId}`)
+        .then((res) => {
+            let data = res.data;
+            this.setState({
+                relatedItems: data,
+            });
+            data.forEach((datum) => {
+                axios.get(`/api/items/${datum.id_item1}`)
+                .then((res) => {
+                    this.setState({
+                        relatedItemInfo: [...this.state.relatedItemInfo, ...res.data],
+                    });
+                })
+                .then(() => {
+                    // trying to figure out why this won't work as a promise after first then statement, it only works are a promise here
+                    this.setState({
+                        relatedItemsCurrent: this.chunk(this.state.relatedItemInfo, this.state.maxRelatedLength)
+                    })
+                });
+            });
+            // console.log('let us see if this is called more than once 1',this.state.relatedItemsCurrent);
+        });
+        // after click, we need to update page,
+        // including most state props
     }
 
     componentDidMount() {
@@ -109,7 +118,9 @@ class App extends React.Component {
                     relatedItemInfo={this.state.relatedItemInfo} 
                     arrowClick={this.arrowClick} 
                     relatedItemsCurrent={this.state.relatedItemsCurrent} 
-                    currentArr={this.state.currentArr}/>
+                    currentArr={this.state.currentArr}
+                    itemClick={this.itemClick}
+                />
             </div>
         )
     }
