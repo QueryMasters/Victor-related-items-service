@@ -1,7 +1,7 @@
 import React from 'react';
 
 const RelatedItem = (props) => {
-    console.log(props.relatedItemData);
+    // console.log(props.relatedItemData);
     return (
         <div>
             <li className = "related-item">

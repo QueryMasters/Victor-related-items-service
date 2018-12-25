@@ -1,8 +1,38 @@
 const faker = require('faker');
-import productImageURLs from './productImages.js';
+const mysql = require('mysql');
+const mysqlConfig = require('./config.js');
+const connection = mysql.createConnection(mysqlConfig);
+const Sequelize = require('sequelize');
+const {productImageURLs} = require('./productImages.js');
 
+connection.connect((err) => {
+    if (err) {
+        console.log(err);
+    } else {
+        console.log('Connected to database!!!');
+    }
+});
+
+// without password / with blank password
+const sequelize = new Sequelize('fec', 'root', null, {
+    host: 'localhost',
+    dialect: 'mysql',
+    operatorsAliases: false,
+
+});
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log('Connection has been established successfully.');
+  })
+  .catch(err => {
+    console.error('Unable to connect to the database:', err);
+  });
+
+// Random Generation
 // Generate Item (num is total number of items), number of reviews is seeded as random for now
-let generateItems = (num) => {
+const generateItems = (num) => {
     let items = [];
     for (let i = 0; i < num; i++) {
         let itemObject = {
@@ -11,7 +41,7 @@ let generateItems = (num) => {
             price: faker.commerce.price(),
             averageStarRating: Math.floor(Math.random() * (5 - 1) + 1),
             availableOnPrime: (Math.random() < .8),
-            image: faker.image.business()
+            image: productImageURLs[Math.floor(Math.random() * (productImageURLs.length))][0]
         };
 
         items.push(itemObject);
@@ -21,7 +51,7 @@ let generateItems = (num) => {
 };
 
 // Generate Random Reviews, creates num reviews over numItems randomly (each review will have a random item number)
-let generateReviews = (num, numItems) => {
+const generateReviews = (num, numItems) => {
     let reviews = [];
     for (let i = 0; i < num; i++) {
         let reviewObject = {
@@ -38,7 +68,7 @@ let generateReviews = (num, numItems) => {
 };
 
 // Generate Singles, Pairs or Trios of frequently together items by id 1 - 100
-let generateFrequentlyTogether = (num) => {
+const generateFrequentlyTogether = (num) => {
     let rangeOfItems = [...Array(num + 1).keys()];
     rangeOfItems.shift();
     let returnArr = [];
@@ -81,7 +111,7 @@ let generateFrequentlyTogether = (num) => {
 };
 
 // Generate lists of related items for num items
-let generateRelatedItems = (num) => {
+const generateRelatedItems = (num) => {
     var rangeOfItems = [...Array(num + 1).keys()];
     rangeOfItems.shift();
     var returnArr = [];
@@ -151,7 +181,7 @@ let generateRelatedItems = (num) => {
 };
 
 // Generate up to 4 random features for num items (this has an id attached to it and I am not sure how to deal with this)
-let generateFeatureRatings = (num) => {
+const generateFeatureRatings = (num) => {
     var featureRating = [];
     for (var i = 0; i < num; i++) {
         var featureObject = {
@@ -164,7 +194,7 @@ let generateFeatureRatings = (num) => {
     return featureRating;
 }
 // Generate num questions
-let generateQuestions = (num) => {
+const generateQuestions = (num) => {
     let questionsArr = [];
     for (let i = 0; i < num; i++) {
         let question = {
@@ -176,7 +206,7 @@ let generateQuestions = (num) => {
     return questionsArr;
 }
 // Generate num answers for numQuestions
-let generateAnswers = (num, numQuestions) => {
+const generateAnswers = (num, numQuestions) => {
     let answersArr = [];
     for (let i = 0; i < num; i++) {
         let answer = {
@@ -192,8 +222,63 @@ let generateAnswers = (num, numQuestions) => {
     return answersArr;
 }
 
+// Declare variables for generation
+
+let queryInterface = sequelize.getQueryInterface();
+let totalItems = 100;
+let totalReviews = 100;
+let totalQ = 100;
+
+// Call random generation functions to seed database
+// Generate Items, then creates random associations between items for frequentlyTogether and relatedItems tables
+
+let items = generateItems(totalItems);
+// queryInterface.bulkInsert('item', items)
+// .then(() => {
+//     let frequentItems = generateFrequentlyTogether(totalItems);
+//     // async functions for each of these  
+//     frequentItems.forEach(tuple => {
+//         let id1 = tuple[0];
+//         let id2 = tuple[1];
+//         connection.query(`INSERT INTO frequentlyBoughtTogether (id_item1, id_item2) VALUES ('${id1}', '${id2}')`, (err) => {
+//             if (err) {
+//                 console.log(err);
+//             }
+//         });
+//     });
+
+// }).then(() => {
+//     let relatedItems = generateRelatedItems(totalItems);
+//     // console.log(relatedItems);
+//     // make async
+//     relatedItems.forEach(tuple => {
+//         let id1 = tuple[0];
+//         let id2 = tuple[1];
+//         connection.query(`INSERT INTO relatedItems (id_item1, id_item2) VALUES ('${id1}', '${id2}')`, (err) => {
+//             if (err) {
+//                 console.log(err);
+//             }
+//         });
+//     });
+
+// });
+
+// queryInterface.bulkInsert('frequentlyBoughtTogether', frequentItems);
+// queryInterface.bulkInsert('relateditems', relatedItems);
+
+// Generate questions
+let questions = generateQuestions(totalQ);
+// queryInterface.bulkInsert('questions', questions);
+
+// Generate totalAnswers for totalQ's
+let answers = generateAnswers(3 * totalQ, totalQ);
+// queryInterface.bulkInsert('answers', answers);
 
 
+// I don't actually need to generate any reviews, this is mostly used for posting since no review is ever rendered on any module of mine.
+// let reviews = generateReviews(totalReviews)
+// Similarly for feature ratings, this is mainly for posting
+// let featureRatings = generateFeatureRatings();
 
 module.exports = {
     generateItems,
