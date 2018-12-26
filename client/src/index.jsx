@@ -4,6 +4,7 @@ import ReactDOM from 'react-dom';
 import axios from 'axios';
 
 import RelatedItemList from './components/RelatedItemList.jsx';
+import FrequentItemList from './components/FrequentItemList.jsx';
 
 
 class App extends React.Component {
@@ -15,7 +16,9 @@ class App extends React.Component {
             relatedItemsCurrent: [],
             currentArr: 0,
             maxRelatedLength: 5,
-            itemId: 2
+            frequentItems:[],
+            frequentItemsInfo:[],
+            itemId: 40
         }
 
         // click bindings
@@ -55,6 +58,8 @@ class App extends React.Component {
             relatedItemsCurrent: [],
             currentArr: 0,
             maxRelatedLength: 5,
+            frequentItems:[],
+            frequentItemsInfo:[]
         });
         axios.get(`/api/related/${this.state.itemId}`)
         .then((res) => {
@@ -108,18 +113,46 @@ class App extends React.Component {
         // .then(() => {
         //     console.log('let us see if this is called more than once 2',this.state.relatedItemsCurrent);
         // });
+
+        axios.get(`/api/frequent/${this.state.itemId}`)
+        .then((res) => {
+            let data = res.data;
+            this.setState({
+                frequentItems: data,
+            });
+            data.forEach((datum) => {
+                axios.get(`/api/items/${datum.id_item1}`)
+                .then((res) => {
+                    this.setState({
+                        frequentItemsInfo: [...this.state.frequentItemsInfo, ...res.data],
+                    });
+                })
+                
+            });
+            axios.get(`/api/items/${this.state.itemId}`)
+                .then((res) => {
+                    this.setState({
+                        frequentItemsInfo: [...this.state.frequentItemsInfo, ...res.data],
+                    });
+                });
+        });
         
     }
     
     render() {
         return (
             <div>
+                <FrequentItemList 
+                    frequentItemsInfo={this.state.frequentItemsInfo}
+                />
+
                 <RelatedItemList 
                     relatedItemInfo={this.state.relatedItemInfo} 
                     arrowClick={this.arrowClick} 
                     relatedItemsCurrent={this.state.relatedItemsCurrent} 
                     currentArr={this.state.currentArr}
                     itemClick={this.itemClick}
+                    currentPage={this.state.currentArr}
                 />
             </div>
         )

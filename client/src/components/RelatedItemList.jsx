@@ -16,7 +16,7 @@ const RelatedItemList = (props) => {
 
     return (
         <div>Customers also bought:
-            <span>
+            <span className="test">
                 <Arrow arrowClick={props.arrowClick} direction='left'/>
                 <div className = "related-item-carousel">
                     <ol>
@@ -26,6 +26,7 @@ const RelatedItemList = (props) => {
                 <Arrow arrowClick={props.arrowClick} direction='right'/>
                 
             </span>
+            <div>The current page is: {props.currentPage + 1}</div>
         </div>
     )
 }

@@ -8,9 +8,9 @@ const Arrow = (props) => {
         dirIcon = '>';
     }
     return( 
-        <div onClick = {() => {props.arrowClick(props.direction)}}>
+        <button className="arrow" onClick = {() => {props.arrowClick(props.direction)}}>
             {dirIcon}
-        </div>
+        </button>
     )
 }
 
