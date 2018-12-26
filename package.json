@@ -11,7 +11,7 @@
     "start": "nodemon server/index.js",
     "react-dev": "webpack -d --watch",
     "startDb": "mysql -u root -p < ./db/schema.sql",
-    "seedDb": "node ./db/index.js"
+    "seedDb": "node ./db/generateSeedData.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
