@@ -11,7 +11,8 @@
     "start": "nodemon server/index.js",
     "react-dev": "webpack -d --watch",
     "startDb": "mysql -u root -p < ./db/schema.sql",
-    "seedDb": "node ./db/generateSeedData.js"
+    "seedDb": "node ./db/generateSeedData.js",
+    "test": "jest"
   },
   "dependencies": {
     "axios": "^0.18.0",
@@ -31,7 +32,11 @@
     "@babel/preset-env": "^7.2.3",
     "@babel/preset-react": "^7.0.0",
     "babel-loader": "^8.0.4",
+    "enzyme": "^3.8.0",
+    "enzyme-adapter-react-16": "^1.7.1",
     "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
+    "jest": "^23.6.0",
+    "puppeteer": "^1.11.0",
     "webpack": "^4.28.1",
     "webpack-cli": "^3.1.2"
   }
