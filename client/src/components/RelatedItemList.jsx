@@ -6,21 +6,24 @@ import Arrow from './Arrow.jsx';
 const RelatedItemList = (props) => {
     let totalPages = 0;
     let mapped = [];
+
     if (props.relatedItemsCurrent !== undefined && props.relatedItemsCurrent.length > 0) {
         let current = props.relatedItemsCurrent[props.currentArr];
         mapped = current.map((element, i) => {
             return <RelatedItem relatedItemData={element} itemClick={props.itemClick} key={i}/>
-        });
-        
+        });       
         totalPages = props.relatedItemsCurrent.length;
-
-        if (totalPages > 1) {
-
-        }
     }
 
     return (
         <div className="related-items-list">Customers also bought:
+            <div className="page-number">
+                {totalPages > 1 && props.currentPage !== 0 ? (
+                    <div className="current-page">Page {props.currentPage + 1} of {totalPages} <span className="text-separator">|</span> <a href="#" className="start-over" onClick={props.startOver}>Start over</a> </div>
+                ) : (
+                    <div className="current-page">Page {props.currentPage + 1} of {totalPages}</div>
+                )}
+            </div>
             <span className="related-items-span">
                 <Arrow arrowClick={props.arrowClick} direction='left'/>
                 <div className = "related-item-carousel">
@@ -31,13 +34,6 @@ const RelatedItemList = (props) => {
                 <Arrow arrowClick={props.arrowClick} direction='right'/>
                 
             </span>
-            <div>
-                {totalPages > 1 && props.currentPage !== 0 ? (
-                    <div className="current-page">Page {props.currentPage + 1} of {totalPages} | <a href="#" className="start-over" onClick={props.startOver}>Start over</a> </div>
-                ) : (
-                    <div className="current-page">Page {props.currentPage + 1} of {totalPages}</div>
-                )}
-            </div>
         </div>
     )
 }

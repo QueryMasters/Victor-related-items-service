@@ -23,8 +23,8 @@ const ItemsCart = (props) => {
     if(totalPrice !== 0) {
         return (
             <div className="items-cart">
-                <span className="price-line">Total Price: <div className="total-price">${totalPrice}</div></span>     
-                <button>Add {totalItemWord} to cart</button>
+                <span className="price-line">Total price: <div className="total-price">${totalPrice}</div></span>     
+                <button className="add-items-button">Add {totalItemWord} to cart</button>
             </div>
         )
 
