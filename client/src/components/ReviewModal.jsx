@@ -5,12 +5,12 @@ const ReviewModal = ({handleClose, show, children}) => {
 
     return (
         <div className={showHideClassName}>
-            <section className="modal-main">
+            <div className="modal-main">
                 {children}
                 Hello There
                 <button onClick={handleClose}>Close</button>
 
-            </section>
+            </div>
         </div>
     )
 }

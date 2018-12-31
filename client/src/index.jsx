@@ -32,7 +32,7 @@ class App extends React.Component {
             showReviews: false,
 
             // current item
-            itemId: 40  // id of current item
+            itemId: 5 // id of current item
         }
 
         // click bindings
@@ -169,9 +169,8 @@ class App extends React.Component {
     updateDim() {
          
         let innerWidth = window.innerWidth;
-        if(window.innerWidth > 620) {
+        if(innerWidth > 620) {
             this.setState({
-                width: innerWidth,
                 maxRelatedLength: Math.floor(innerWidth / 175),
                 relatedItemsCurrent: this.chunk(this.state.relatedItemInfo, Math.max(Math.floor(innerWidth / 180), 3)),
 
@@ -227,7 +226,7 @@ class App extends React.Component {
                 <ReviewModal show={this.state.showReviewsModal} handleClose={this.hideReviews} >
                     <p>Hello from index.jsx</p>
                 </ReviewModal >
-                <button type='button' onClick={this.showReviews}>Write a customer review</button>
+                <button type='button' onClick={this.showReviews} className="write-review-button">Write a customer review</button>
             </div>
         )
     }
