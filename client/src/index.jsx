@@ -175,7 +175,6 @@ class App extends React.Component {
                 relatedItemsCurrent: this.chunk(this.state.relatedItemInfo, Math.max(Math.floor(innerWidth / 180), 3)),
 
             });
-            console.log(this.state);
         } else {
             this.setState({
                 relatedItemsCurrent: this.chunk(this.state.relatedItemInfo, 3)

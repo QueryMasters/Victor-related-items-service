@@ -7,8 +7,12 @@ const RelatedItem = (props) => {
     return (
         
             <li className = "related-item">
-                <div><img src={props.relatedItemData.image} className="item-image"/></div>
-                <div><a href="#" onClick={() => {props.itemClick(props.relatedItemData.id)}}>{props.relatedItemData.itemName}</a></div>
+                <div>
+                    <img src={props.relatedItemData.image} className="item-image"/>
+                </div>
+                <div>
+                    <a href="#" onClick={() => {props.itemClick(props.relatedItemData.id)}}>{props.relatedItemData.itemName}</a>
+                </div>
                 <span className="stars-span">
                     <div className={numStarsClass}></div>
                     <div>{props.relatedItemData.numberOfReviews}</div>

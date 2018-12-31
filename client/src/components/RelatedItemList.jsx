@@ -20,7 +20,11 @@ const RelatedItemList = (props) => {
         <span className="relate-items-title">Customers also bought:</span> 
             <div className="page-number">
                 {totalPages > 1 && props.currentPage !== 0 ? (
-                    <div className="current-page">Page {props.currentPage + 1} of {totalPages} <span className="text-separator">|</span> <a href="#" className="start-over" onClick={props.startOver}>Start over</a> </div>
+                    <div className="current-page">
+                        Page {props.currentPage + 1} of {totalPages} 
+                        <span className="text-separator">|</span>
+                        <a href="#" className="start-over" onClick={props.startOver}>Start over</a>
+                    </div>
                 ) : (
                     <div className="current-page">Page {props.currentPage + 1} of {totalPages}</div>
                 )}
