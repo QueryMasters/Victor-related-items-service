@@ -12,24 +12,13 @@ const FrequentImages = (props) => {
             return el.checked === true;
         });
 
-        // if (filteredImages.length > 1) {
-        //     mappedImages = filteredImages.map((element, index) => {
-        //         if(true) {
-
-        //         }
-        //     })
-        // }
-
-        mappedImages = props.frequentItems.map((element, index) => {
-            if(element.checked) {
+        mappedImages = filteredImages.map((element, index) => {
+            if (filteredImages.length > 1 && index !== filteredImages.length - 1) {
+                return <div className="item-+"><img src={element.image} className="item-image" key={index}/><div className="item-plus">+</div></div> 
+            } else {
                 return <img src={element.image} className="item-image" key={index}/>
-                
             }
         });
-        console.log(mappedImages);
-        // if (mappedImages.length > 1) {
-        //     mappedImages.split('').join('+');
-        // }
 
     }
     return (

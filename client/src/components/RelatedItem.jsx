@@ -5,7 +5,7 @@ const RelatedItem = (props) => {
     let numStarsClass = 'stars star-' + props.relatedItemData.averageStarRating.toString();
     
     return (
-        <div>
+        
             <li className = "related-item">
                 <div><img src={props.relatedItemData.image} className="item-image"/></div>
                 <div><a href="#" onClick={() => {props.itemClick(props.relatedItemData.id)}}>{props.relatedItemData.itemName}</a></div>
@@ -22,7 +22,7 @@ const RelatedItem = (props) => {
                 </span>
                 {/* <div>Id: {props.relatedItemData.id}</div> */}
             </li>
-        </div>
+        
     )
 }
 

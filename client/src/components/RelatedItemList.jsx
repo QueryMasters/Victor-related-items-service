@@ -16,7 +16,8 @@ const RelatedItemList = (props) => {
     }
 
     return (
-        <div className="related-items-list">Customers also bought:
+        <div className="related-items-list">
+        <span className="relate-items-title">Customers also bought:</span> 
             <div className="page-number">
                 {totalPages > 1 && props.currentPage !== 0 ? (
                     <div className="current-page">Page {props.currentPage + 1} of {totalPages} <span className="text-separator">|</span> <a href="#" className="start-over" onClick={props.startOver}>Start over</a> </div>
@@ -24,7 +25,7 @@ const RelatedItemList = (props) => {
                     <div className="current-page">Page {props.currentPage + 1} of {totalPages}</div>
                 )}
             </div>
-            <span className="related-items-span">
+            <div className="related-items-span">
                 <Arrow arrowClick={props.arrowClick} direction='left'/>
                 <div className = "related-item-carousel">
                     <ol>
@@ -33,7 +34,7 @@ const RelatedItemList = (props) => {
                 </div>
                 <Arrow arrowClick={props.arrowClick} direction='right'/>
                 
-            </span>
+            </div>
         </div>
     )
 }
