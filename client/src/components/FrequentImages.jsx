@@ -14,7 +14,10 @@ const FrequentImages = (props) => {
 
         mappedImages = filteredImages.map((element, index) => {
             if (filteredImages.length > 1 && index !== filteredImages.length - 1) {
-                return <div className="item-plus"><img src={element.image} className="item-image" key={index}/><div>+</div></div> 
+                return  <div className="item-plus">
+                            <img src={element.image} className="item-image" key={index}/>
+                            <div>+</div>
+                        </div> 
             } else {
                 return <img src={element.image} className="item-image" key={index}/>
             }
