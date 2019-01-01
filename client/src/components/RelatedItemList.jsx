@@ -4,19 +4,32 @@ import RelatedItem from './RelatedItem.jsx';
 import Arrow from './Arrow.jsx';
 
 const RelatedItemList = (props) => {
-    // console.log('from RelatedItemList', props.relatedItemsCurrent);
+    let totalPages = 0;
     let mapped = [];
+
     if (props.relatedItemsCurrent !== undefined && props.relatedItemsCurrent.length > 0) {
         let current = props.relatedItemsCurrent[props.currentArr];
-        // console.log('current is', current, 'props.relatedItemsCurrent are ', props.relatedItemsCurrent);
-        mapped = current.map(element => {
-            return <RelatedItem relatedItemData={element} itemClick={props.itemClick}/>
-        })
+        mapped = current.map((element, i) => {
+            return <RelatedItem relatedItemData={element} itemClick={props.itemClick} key={i}/>
+        });       
+        totalPages = props.relatedItemsCurrent.length;
     }
 
     return (
-        <div>Customers also bought:
-            <span>
+        <div className="related-items-list">
+        <span className="relate-items-title">Customers also bought:</span> 
+            <div className="page-number">
+                {totalPages > 1 && props.currentPage !== 0 ? (
+                    <div className="current-page">
+                        Page {props.currentPage + 1} of {totalPages} 
+                        <span className="text-separator">|</span>
+                        <a href="#" className="start-over" onClick={props.startOver}>Start over</a>
+                    </div>
+                ) : (
+                    <div className="current-page">Page {props.currentPage + 1} of {totalPages}</div>
+                )}
+            </div>
+            <div className="related-items-span">
                 <Arrow arrowClick={props.arrowClick} direction='left'/>
                 <div className = "related-item-carousel">
                     <ol>
@@ -25,7 +38,7 @@ const RelatedItemList = (props) => {
                 </div>
                 <Arrow arrowClick={props.arrowClick} direction='right'/>
                 
-            </span>
+            </div>
         </div>
     )
 }
