@@ -1,5 +1,12 @@
+import React from 'react';
+import mockData from './mockData.js';
+import App from '../client/src/index.jsx';
+import { shallow, mount, render } from 'enzyme';
+
+
 const puppeteer = require('puppeteer');
 const pageURL = 'http://localhost:8888/';
+
 
 let page;
 let browser;
@@ -29,3 +36,15 @@ describe('related items scroll', () => {
 
     });
 });
+
+describe('<App />', () => {
+    let spy;
+    beforeEach(() => {
+        fetch.resetMocks();
+        fetch.mockResponseOnce(JSON.stringify(mockData));
+    });
+
+    afterEach(() => {
+        spy.mockClear();
+    })
+})

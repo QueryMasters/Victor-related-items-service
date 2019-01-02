@@ -6,7 +6,8 @@ import axios from 'axios';
 
 import RelatedItemList from './components/RelatedItemList.jsx';
 import FrequentItemList from './components/FrequentItemList.jsx';
-import ReviewModal from './components/ReviewModal.jsx';
+import ReviewModalContainer from './components/ReviewModalContainer.jsx';
+// import ReviewModal from './components/ReviewModal.jsx';
 
 class App extends React.Component {
     constructor(props) {
@@ -211,6 +212,8 @@ class App extends React.Component {
                     checkHandler={this.checkHandler}
                     itemClick={this.itemClick}
                 />
+                
+                <hr/>
 
                 <RelatedItemList 
                     relatedItemInfo={this.state.relatedItemInfo} 
@@ -222,10 +225,11 @@ class App extends React.Component {
                     currentPage={this.state.currentArr}
                 />
                 
-                <ReviewModal show={this.state.showReviewsModal} handleClose={this.hideReviews} >
-                    <p>Hello from index.jsx</p>
-                </ReviewModal >
-                <button type='button' onClick={this.showReviews} className="write-review-button">Write a customer review</button>
+                <hr/>
+                
+                <ReviewModalContainer showReviewsModal={this.state.showReviewsModal} handleClose= {this.hideReviews} showReviews={this.showReviews}/>
+                {/* <ReviewModal show={this.state.showReviewsModal} handleClose={this.hideReviews} /> */}
+                {/* <button type='button' onClick={this.showReviews} className="write-review-button">Write a customer review</button> */}
             </div>
         )
     }

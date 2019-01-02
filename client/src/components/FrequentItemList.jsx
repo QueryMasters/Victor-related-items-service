@@ -3,6 +3,7 @@ import FrequentImages from './FrequentImages.jsx';
 import CheckboxContainer from './CheckboxContainer.jsx';
 
 const FrequentItemList = (props) => {
+    console.log(props)
     return (
         <div className="frequent-item-list">
             <div className="frequent-item-title">Frequently bought together</div> 
