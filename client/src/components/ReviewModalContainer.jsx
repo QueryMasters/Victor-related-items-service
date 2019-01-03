@@ -1,8 +1,7 @@
 import React from 'react';
 import ReviewModal from './ReviewModal.jsx';
 
-const ReviewModalContainer = ({handleClose, showReviewsModal, showReviews, children} ) => {
-
+const ReviewModalContainer = ({handleClose, showReviewsModal, showReviews, children}) => {
     return (
         <div className="reviews-modal">
             <div className="reviews-title">Review this product</div>

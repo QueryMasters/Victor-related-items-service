@@ -1,0 +1,359 @@
+@font-face {
+    font-family: "AmazonEmber";
+    src: url('AmazonEmber_Rg.ttf') format('truetype');
+    
+}
+
+@font-face {
+    font-family: "AmazonEmberBold";
+    src: url('/AmazonEmber_Bd.ttf') format('truetype');
+    font-weight: bold;
+}
+
+body {
+    font-family: "AmazonEmber";
+}
+
+button {
+    border-radius: 3px;
+    background: linear-gradient(to bottom,#f7dfa5,#f0c14b);
+    background-image: linear-gradient(rgb(247, 223, 165), rgb(240, 193, 75));
+    border-color: #a88734 #9c7e31 #846a29;
+    border-top-color: rgb(168, 135, 52);
+    border-right-color: rgb(156, 126, 49);
+    border-bottom-color: rgb(132, 106, 41);
+    border-left-color: rgb(156, 126, 49);
+}
+
+button:active {
+    outline-color: orange;
+}
+
+button:focus {
+    outline-color: orange;
+}
+
+ol {
+    display: flex;
+    list-style: none;
+    padding: 0px;
+}
+
+a {
+    color:#0066c0;
+    text-decoration: none;
+}
+
+a:hover {
+    color:#B12704;
+    text-decoration: underline;
+}
+
+hr {
+    border-top: 0.5px solid #CCC!important;
+    display: block;
+    unicode-bidi: isolate;
+    margin-block-start: 0.5em;
+    margin-block-end: 0.5em;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+    overflow: hidden;
+    border-style: inset;
+    border-width: 1px;
+    
+}
+
+/* Related Items Module*/
+.related-items-list {
+    width: 100%;
+    color: #B12704;
+    /* border: 2px blue solid; */
+    min-width: 530px;
+    
+}
+
+.related-items-span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.related-item-carousel {
+    max-width: 95%;
+    /* border: 2px orange solid; */
+}
+
+.related-item {
+    /* border: 2px black solid; */
+    vertical-align: top;
+    text-align: left;
+    overflow: hidden;
+    margin-left: 7.5px;
+    margin-right: 7.5px;
+    width: 160px;
+    min-height: 100%;
+    max-height: 240px;
+    list-style-type: none;
+    display: inline-block;
+    white-space: normal;
+    letter-spacing: normal;
+
+}
+
+.relate-items-title {
+    font-weight: bold;
+    color:#C60;
+}
+
+.page-number {
+    color: black;
+    float: right;
+}
+
+.text-separator {
+    color: rgb(192, 192, 192);
+}
+
+.start-over {
+    font-size: 13px;
+}
+
+/* Related Item li */
+.item-image {
+    width: 160px;
+    height: auto;
+    max-height: 160px;
+}
+
+.stars-span {
+    display: flex;
+    flex-direction: row;
+    color:#0066c0;
+    font-size: 13px;
+    line-height: 19px;
+}
+
+.stars {
+    width: 80px;
+    height: 18px;
+    background-image: url("https://m.media-amazon.com/images/G/01/AUIClients/AmazonUIBaseCSS-sprite_2x-13acd72bb22e0c502de00d0afe21c494871da686._V2_.png");
+    background-size: 400px 900px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    vertical-align: text-top;
+}
+
+.star-1 {
+    background-position: -69px -368px;
+}
+
+.star-2 {
+    background-position: -53px -368px;
+}
+
+.star-3 {
+    background-position: -37px -368px;
+}
+
+.star-4 {
+    background-position: -21px -368px;
+}
+
+.star-5 {
+    background-position: -5px -368px;
+}
+
+.price-prime-span {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color:#B12704;
+    font-size: 13px;
+    line-height: 19px;
+
+}
+
+.amazon-prime-icon {
+    width: 44px;
+    height: 12px;
+    background-image: url("https://m.media-amazon.com/images/G/01/AUIClients/AmazonUIBaseCSS-sprite_2x-13acd72bb22e0c502de00d0afe21c494871da686._V2_.png");
+    background-size: 400px 900px;
+    background-position: -205px -247px;
+    background-repeat: no-repeat;
+    display: inline-block;
+    margin-left: 4px;
+}
+
+.arrow {
+    padding: 10px;
+    border-radius: 3px;
+    background: linear-gradient(to bottom,#f7f8fa,#e7e9ec);
+    cursor: pointer;
+}
+
+.arrow:active {
+    outline-color: orange;
+}
+
+.arrow:focus {
+    outline-color: orange;
+}
+
+/* Frequent Items Module */
+
+.frequent-item-list {
+    /* border: 2px black solid; */
+    color:#B12704;
+}
+
+.frequent-images {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+
+.frequent-item-title {
+    font-weight: bold;
+    color:#C60;
+}
+
+.item-plus {
+    font-size: 21px;
+    color: #767676;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 0px 5px;
+}
+
+.checkbox-label {
+    color: black;
+}
+
+.items-cart {
+    color: black;
+    margin-left: 25px;
+    width: 150px;
+    height: 75px;
+    display: flex;
+    flex-direction: column;
+}
+
+.price-line {
+    color: black;
+    font-size: 13px;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    margin-bottom: 5px;
+}
+
+.add-items-button {
+    height: 20px;
+    min-width: 135px;
+    border-radius: 3px;
+    background: #f0c14b;
+    border-color: #a88734 #9c7e31 #846a29;
+    border-top-color: rgb(168, 135, 52);
+    border-right-color: rgb(156, 126, 49);
+    border-bottom-color: rgb(132, 106, 41);
+    border-left-color: rgb(156, 126, 49);
+    background: linear-gradient(to bottom,#f7dfa5,#f0c14b);
+    background-image: linear-gradient(rgb(247, 223, 165), rgb(240, 193, 75));
+    background-position-x: initial;
+    background-position-y: initial;
+    background-size: initial;
+    background-attachment: initial;
+    background-origin: initial;
+    background-clip: initial;
+    background-color: initial;
+    color: #111;
+}
+
+.add-items-button:focus {
+    outline-color: orange;
+} 
+
+.total-price {
+    font-size: 17px!important;
+    color:#B12704;
+    margin-left: 5px;
+}
+
+.grayed-out {
+    color: gray;
+    opacity: .5;
+}
+
+/* Reviews Modal Module */
+
+.modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width:100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.6);
+}
+  
+.modal-main {
+    padding: 20px 200px;
+    position:fixed;
+    background: white;
+    width: 50%;
+    height: 60%;
+    top:50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+}
+
+.display-block {
+    display: block;
+}
+
+.display-none {
+    display: none;
+}
+
+.write-review-button {
+    width: 300px;
+    height: 30px;
+    font-size: 13px;
+    background: linear-gradient(to bottom,#f7f8fa,#e7e9ec);
+    border-radius: 3px;
+    border-color: #ADB1B8 #A2A6AC #8D9096;
+    border-style: solid;
+    border-width: 1px;
+    cursor: pointer;
+    display: inline-block;
+    padding: 0;
+    text-align: center;
+    text-decoration: none!important;
+    vertical-align: middle;
+    line-height: 19px; 
+}
+
+.review-form-item {
+    display: flex;
+    flex-direction: column;
+}
+
+.review-form-item-headline {
+    display: flex;
+    flex-direction: column;
+    width: 533px;
+}
+
+.review-label {
+    /* font-family: "AmazonEmberBold"; */
+    font-weight: bold;
+}
+
+textarea {
+    width: 700px;
+}
+
+.close-reviews-button {
+    float: right;
+}
