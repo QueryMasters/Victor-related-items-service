@@ -1,7 +1,6 @@
 import React from 'react';
 
 const RelatedItem = (props) => {
-    // console.log(props.relatedItemData);
     let numStarsClass = 'stars star-' + props.relatedItemData.averageStarRating.toString();
     
     return (
@@ -24,7 +23,6 @@ const RelatedItem = (props) => {
                     
                     }
                 </span>
-                {/* <div>Id: {props.relatedItemData.id}</div> */}
             </li>
         
     )
