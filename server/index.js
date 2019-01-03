@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { getAllItems, getOneItem, getRelated, getFrequent, postMessage } = require(__dirname + '/../db/index.js')
+const { getAllItems, getOneItem, getRelated, getFrequent, postMessage } = require(__dirname + '/../db/index.js');
 
 const app = express();
 const PORT = 8888;
@@ -74,4 +74,3 @@ app.post('/api/messages', (req, res) => {
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
 });
-  
