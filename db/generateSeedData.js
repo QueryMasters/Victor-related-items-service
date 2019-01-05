@@ -35,14 +35,14 @@ sequelize
 // Generate Item (num is total number of items), number of reviews is seeded as random for now
 const generateItems = (num) => {
   let items = [];
-  for (let i = 0; i < num; i++) {
+  for (let i = 1; i <= num; i++) {
     let itemObject = {
       itemName: faker.commerce.productName(),
       numberOfReviews: Math.floor(Math.random() * 10000 + 1),
       price: faker.commerce.price(),
-      averageStarRating: Math.floor(Math.random() * (5 - 1) + 1),
+      averageStarRating: Math.floor(Math.random() * (5)) + 1,
       availableOnPrime: (Math.random() < 0.8),
-      image: productImageURLs[Math.floor(Math.random() * (productImageURLs.length))][0]
+      image: productImageURLs[Math.floor(Math.random() * (productImageURLs.length))][0],
     };
 
     items.push(itemObject);
@@ -59,16 +59,15 @@ const generateFrequentlyTogether = (num) => {
   let returnArr = [];
   while (rangeOfItems.length > 0) {
     if (rangeOfItems.length > 3) {
-      let randThroughThree = Math.floor(Math.random() * (3 - 1 ) + 1);
+      let randThroughThree = Math.floor(Math.random() * (3)) + 1;
       let tempRandArr = [];
       for (let i = 0; i < randThroughThree; i++) {
-        let randomItemIdIndex = Math.floor(Math.random() * (rangeOfItems.length - 1 ) + 0);
+        let randomItemIdIndex = Math.floor(Math.random() * (rangeOfItems.length - 0)) + 0;
         if (randThroughThree !== 1) {
           tempRandArr.push(rangeOfItems[randomItemIdIndex]);
         }
-        rangeOfItems.splice(randomItemIdIndex, 1);               
+        rangeOfItems.splice(randomItemIdIndex, 1);
       }
-
       let generatePairs = (arr) => {
         let pairsArr = [];
         if (arr.length === 1) {
@@ -81,10 +80,8 @@ const generateFrequentlyTogether = (num) => {
             }
           }
         }
-
         return pairsArr;
       };
-
       returnArr = returnArr.concat(generatePairs(tempRandArr));
 
     } else {
@@ -103,15 +100,16 @@ const generateRelatedItems = (num) => {
   let returnArr = [];
   while (rangeOfItems.length > 0) {
     if (rangeOfItems.length > 20) {
-      let randThroughThree = Math.floor(Math.random() * (20 - 1) + 1);
+      let randThroughThree = Math.floor(Math.random() * (20 - 5 + 1)) + 5;
       let tempRandArr = [];
 
       for (let i = 0; i < randThroughThree; i++) {
-        let randomItemIdIndex = Math.floor(Math.random() * (rangeOfItems.length - 1) + 0);
+        let randomItemIdIndex = Math.floor(Math.random() * (rangeOfItems.length - 0)) + 0;
+        // console.log('the random item id index is ', randomItemIdIndex);
         tempRandArr.push(rangeOfItems[randomItemIdIndex]);
         rangeOfItems.splice(randomItemIdIndex, 1);
       }
-
+      // console.log('the temp array is: ', tempRandArr);
       let generatePairs = (arr) => {
         let pairsArr = [];
         if (arr.length === 1) {
@@ -125,18 +123,20 @@ const generateRelatedItems = (num) => {
           }
         }
         return pairsArr;
-      }
+      };
       returnArr = returnArr.concat(generatePairs(tempRandArr));
 
     } else if (rangeOfItems.length > 5) {
-      let randThroughThree = Math.floor(Math.random() * (5 - 1 ) + 1);
+      let randThroughThree = Math.floor(Math.random() * (5)) + 2;
       let tempRandArr = [];
 
       for (let i = 0; i < randThroughThree; i++) {
-        let randomItemIdIndex = Math.floor(Math.random() * (rangeOfItems.length - 1 ) + 1);
+        let randomItemIdIndex = Math.floor(Math.random() * (rangeOfItems.length - 0)) + 0;
+        // console.log('the random item id is ', randomItemIdIndex);
         tempRandArr.push(rangeOfItems[randomItemIdIndex]);
-        rangeOfItems.splice(randomItemIdIndex, 1);               
+        rangeOfItems.splice(randomItemIdIndex, 1);
       }
+      // console.log('the temp array is: ', tempRandArr);
 
       let generatePairs = (arr) => {
         let pairsArr = [];
@@ -151,9 +151,8 @@ const generateRelatedItems = (num) => {
           }
         }
         return pairsArr;
-      }
+      };
       returnArr = returnArr.concat(generatePairs(tempRandArr));
-
     } else {
       for (let i = 0; i < rangeOfItems.length; i++) {
         // returnArr.push([rangeOfItems[i]]);
@@ -161,7 +160,6 @@ const generateRelatedItems = (num) => {
       }
     }
   }
-  // console.log(returnArr);
   return returnArr;
 };
 
@@ -173,38 +171,162 @@ const totalItems = 100;
 // Call random generation functions to seed database
 // Generate Items, then creates random associations between items for frequentlyTogether and relatedItems tables
 
+// const Items = sequelize.define('item',
+//   {
+//     id: { type: Sequelize.INTEGER, autoIncrement: true, primaryKey: true },
+//     itemName: Sequelize.STRING,
+//     price: Sequelize.INTEGER,
+//     numberOfReviews: Sequelize.INTEGER,
+//     averageStarRating: Sequelize.INTEGER,
+//     availableOnPrime: Sequelize.BOOLEAN,
+//     image: Sequelize.STRING,
+//   },
+//   {
+//     timestamps: false,
+//   });
+
+// const FrequentItems = sequelize.define('frequentlyBoughtTogether',
+//   {
+//     id_item1: {
+//       type: Sequelize.INTEGER,
+//       references: {
+//         model: Items,
+//         key: 'id',
+//       },
+//     },
+//     id_item2: {
+//       type: Sequelize.INTEGER,
+//       references: {
+//         model: Items,
+//         key: 'id',
+//       },
+//     },
+//   },
+//   {
+//     timestamps: false,
+//   });
+
+// const RelatedItems = sequelize.define('relatedItems',
+//   {
+//     id_item1: {
+//       type: Sequelize.INTEGER,
+//       references: {
+//         model: Items,
+//         key: 'id',
+//       },
+//     },
+//     id_item2: {
+//       type: Sequelize.INTEGER,
+//       references: {
+//         model: Items,
+//         key: 'id',
+//       },
+//     },
+//   },
+//   {
+//     timestamps: false,
+//   });
+
+
+// const addFrequentItem = (id_item1, id_item2, callback) => {
+//   return FrequentItems.sync()
+//     .then(() => FrequentItems.create({
+//       id_item1,
+//       id_item2,
+//     }))
+//     .then(() => {
+//       callback();
+//     })
+//     .catch((err) => {
+//       throw err;
+//     });
+// };
+
+// const addRelatedItem = (id_item1, id_item2, callback) => {
+//   return RelatedItems.sync()
+//     .then(() => RelatedItems.create({
+//       id_item1,
+//       id_item2,
+//     }))
+//     .then(() => {
+//       callback();
+//     })
+//     .catch((err) => {
+//       throw err;
+//     });
+// };
+
 const items = generateItems(totalItems);
+const frequentItems = generateFrequentlyTogether(totalItems);
+const relatedItems = generateRelatedItems(totalItems);
+// console.log('related items are: ', JSON.stringify(relatedItems));
+
+// queryInterface.bulkInsert('item', items)
+//   .then(() => {
+//     frequentItems.forEach((tuple) => {
+//       let id1 = tuple[0];
+//       let id2 = tuple[1];
+//       addFrequentItem(id1, id2, () => {});
+//     });
+//   }).then(() => {
+//     relatedItems.forEach((tuple) => {
+//       let id1 = tuple[0];
+//       let id2 = tuple[1];
+//       addRelatedItem(id1, id2, () => {});
+//     });
+//   }).then(() => {
+//   // sequelize.connectionManager.close().then(() => console.log('shut down gracefully'));
+//   });
+
 queryInterface.bulkInsert('item', items)
   .then(() => {
     let frequentItems = generateFrequentlyTogether(totalItems);
-    // async functions for each of these  
+    let queryString = 'INSERT INTO frequentlyBoughtTogether (id_item1, id_item2) VALUES ';
     frequentItems.forEach((tuple) => {
       let id1 = tuple[0];
       let id2 = tuple[1];
-      connection.query(`INSERT INTO frequentlyBoughtTogether (id_item1, id_item2) VALUES ('${id1}', '${id2}')`, (err) => {
+      queryString += `(${id1}, ${id2}), `;
+      // connection.query(`INSERT INTO frequentlyBoughtTogether (id_item1, id_item2) VALUES ('${id1}', '${id2}')`, (err) => {
+      //   if (err) {
+      //     console.log(err);
+      //   }
+    });
+    queryString = queryString.slice(0, -2);
+    // console.log('the frequent items string is: ', queryString);
+    return new Promise((resolve, reject) => {
+      connection.query(queryString, (err) => {
         if (err) {
           console.log(err);
         }
+        resolve();
       });
     });
   }).then(() => {
     let relatedItems = generateRelatedItems(totalItems);
-    // console.log(relatedItems);
-    // make async
+    let queryString = 'INSERT INTO relatedItems (id_item1, id_item2) VALUES ';
     relatedItems.forEach((tuple) => {
       let id1 = tuple[0];
       let id2 = tuple[1];
-      connection.query(`INSERT INTO relatedItems (id_item1, id_item2) VALUES ('${id1}', '${id2}')`, (err) => {
+      // console.log('the tuple is: ', [id1, id2]);
+      queryString += `(${id1}, ${id2}), `;
+    });
+    queryString = queryString.slice(0, -2);
+    // console.log('the related items string is: ', queryString);
+    return new Promise((resolve, reject) => {
+      connection.query(queryString, (err) => {
         if (err) {
           console.log(err);
         }
+        resolve();
       });
     });
+  }).then(() => {
+    sequelize.close();
+    process.exit();
   });
 
 module.exports = {
   generateItems,
   generateFrequentlyTogether,
   generateRelatedItems,
-
 };
