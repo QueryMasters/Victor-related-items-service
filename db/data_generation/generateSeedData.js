@@ -1,10 +1,10 @@
 const faker = require('faker');
 const mysql = require('mysql');
 const Sequelize = require('sequelize');
-const mysqlConfig = require('./config.js');
+const mysqlConfig = require('../config.js');
 
 const connection = mysql.createConnection(mysqlConfig);
-const { productImageURLs } = require('./productImages.js');
+const { productImageURLs } = require('../productImages.js');
 
 connection.connect((err) => {
   if (err) {
@@ -15,8 +15,9 @@ connection.connect((err) => {
 });
 
 // without password / with blank password
+// fix this config
 const sequelize = new Sequelize('fec', 'root', null, {
-  host: 'localhost',
+  host: '172.17.0.2',
   dialect: 'mysql',
   operatorsAliases: false,
 
@@ -35,21 +36,20 @@ sequelize
 // Generate Item (num is total number of items), number of reviews is seeded as random for now
 const generateItems = (num) => {
   let items = [];
-  for (let i = 0; i < num; i++) {
+  for (let i = 1; i <= num; i++) {
     let itemObject = {
       itemName: faker.commerce.productName(),
       numberOfReviews: Math.floor(Math.random() * 10000 + 1),
       price: faker.commerce.price(),
-      averageStarRating: Math.floor(Math.random() * (5 - 1) + 1),
+      averageStarRating: Math.floor(Math.random() * (5)) + 1,
       availableOnPrime: (Math.random() < 0.8),
-      image: productImageURLs[Math.floor(Math.random() * (productImageURLs.length))][0]
+      image: productImageURLs[Math.floor(Math.random() * (productImageURLs.length))][0],
     };
 
     items.push(itemObject);
   }
   // console.log(items);
   return items;
-
 };
 
 // Generate Singles, Pairs or Trios of frequently together items by id 1 - 100
@@ -59,16 +59,15 @@ const generateFrequentlyTogether = (num) => {
   let returnArr = [];
   while (rangeOfItems.length > 0) {
     if (rangeOfItems.length > 3) {
-      let randThroughThree = Math.floor(Math.random() * (3 - 1 ) + 1);
+      let randThroughThree = Math.floor(Math.random() * (3)) + 1;
       let tempRandArr = [];
       for (let i = 0; i < randThroughThree; i++) {
-        let randomItemIdIndex = Math.floor(Math.random() * (rangeOfItems.length - 1 ) + 0);
+        let randomItemIdIndex = Math.floor(Math.random() * (rangeOfItems.length - 0)) + 0;
         if (randThroughThree !== 1) {
           tempRandArr.push(rangeOfItems[randomItemIdIndex]);
         }
-        rangeOfItems.splice(randomItemIdIndex, 1);               
+        rangeOfItems.splice(randomItemIdIndex, 1);
       }
-
       let generatePairs = (arr) => {
         let pairsArr = [];
         if (arr.length === 1) {
@@ -81,10 +80,8 @@ const generateFrequentlyTogether = (num) => {
             }
           }
         }
-
         return pairsArr;
       };
-
       returnArr = returnArr.concat(generatePairs(tempRandArr));
 
     } else {
@@ -103,15 +100,14 @@ const generateRelatedItems = (num) => {
   let returnArr = [];
   while (rangeOfItems.length > 0) {
     if (rangeOfItems.length > 20) {
-      let randThroughThree = Math.floor(Math.random() * (20 - 1) + 1);
+      let randThroughThree = Math.floor(Math.random() * (20 - 5 + 1)) + 5;
       let tempRandArr = [];
 
       for (let i = 0; i < randThroughThree; i++) {
-        let randomItemIdIndex = Math.floor(Math.random() * (rangeOfItems.length - 1) + 0);
+        let randomItemIdIndex = Math.floor(Math.random() * (rangeOfItems.length - 0)) + 0;
         tempRandArr.push(rangeOfItems[randomItemIdIndex]);
         rangeOfItems.splice(randomItemIdIndex, 1);
       }
-
       let generatePairs = (arr) => {
         let pairsArr = [];
         if (arr.length === 1) {
@@ -125,17 +121,17 @@ const generateRelatedItems = (num) => {
           }
         }
         return pairsArr;
-      }
+      };
       returnArr = returnArr.concat(generatePairs(tempRandArr));
 
     } else if (rangeOfItems.length > 5) {
-      let randThroughThree = Math.floor(Math.random() * (5 - 1 ) + 1);
+      let randThroughThree = Math.floor(Math.random() * (5)) + 2;
       let tempRandArr = [];
 
       for (let i = 0; i < randThroughThree; i++) {
-        let randomItemIdIndex = Math.floor(Math.random() * (rangeOfItems.length - 1 ) + 1);
+        let randomItemIdIndex = Math.floor(Math.random() * (rangeOfItems.length - 0)) + 0;
         tempRandArr.push(rangeOfItems[randomItemIdIndex]);
-        rangeOfItems.splice(randomItemIdIndex, 1);               
+        rangeOfItems.splice(randomItemIdIndex, 1);
       }
 
       let generatePairs = (arr) => {
@@ -151,9 +147,8 @@ const generateRelatedItems = (num) => {
           }
         }
         return pairsArr;
-      }
+      };
       returnArr = returnArr.concat(generatePairs(tempRandArr));
-
     } else {
       for (let i = 0; i < rangeOfItems.length; i++) {
         // returnArr.push([rangeOfItems[i]]);
@@ -161,7 +156,6 @@ const generateRelatedItems = (num) => {
       }
     }
   }
-  // console.log(returnArr);
   return returnArr;
 };
 
@@ -174,37 +168,51 @@ const totalItems = 100;
 // Generate Items, then creates random associations between items for frequentlyTogether and relatedItems tables
 
 const items = generateItems(totalItems);
+const frequentItems = generateFrequentlyTogether(totalItems);
+const relatedItems = generateRelatedItems(totalItems);
+
 queryInterface.bulkInsert('item', items)
   .then(() => {
     let frequentItems = generateFrequentlyTogether(totalItems);
-    // async functions for each of these  
+    let queryString = 'INSERT INTO frequentlyBoughtTogether (id_item1, id_item2) VALUES ';
     frequentItems.forEach((tuple) => {
       let id1 = tuple[0];
       let id2 = tuple[1];
-      connection.query(`INSERT INTO frequentlyBoughtTogether (id_item1, id_item2) VALUES ('${id1}', '${id2}')`, (err) => {
+      queryString += `(${id1}, ${id2}), `;
+    });
+    queryString = queryString.slice(0, -2);
+    return new Promise((resolve, reject) => {
+      connection.query(queryString, (err) => {
         if (err) {
           console.log(err);
         }
+        resolve();
       });
     });
   }).then(() => {
     let relatedItems = generateRelatedItems(totalItems);
-    // console.log(relatedItems);
-    // make async
+    let queryString = 'INSERT INTO relatedItems (id_item1, id_item2) VALUES ';
     relatedItems.forEach((tuple) => {
       let id1 = tuple[0];
       let id2 = tuple[1];
-      connection.query(`INSERT INTO relatedItems (id_item1, id_item2) VALUES ('${id1}', '${id2}')`, (err) => {
+      queryString += `(${id1}, ${id2}), `;
+    });
+    queryString = queryString.slice(0, -2);
+    return new Promise((resolve, reject) => {
+      connection.query(queryString, (err) => {
         if (err) {
           console.log(err);
         }
+        resolve();
       });
     });
+  }).then(() => {
+    sequelize.close();
+    process.exit();
   });
 
 module.exports = {
   generateItems,
   generateFrequentlyTogether,
   generateRelatedItems,
-
 };

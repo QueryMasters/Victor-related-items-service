@@ -42,6 +42,7 @@ const getRelated = function (id, callback) {
 };
 
 const getFrequent = function (id, callback) {
+  console.log('the id is',id);
   let queryString = `SELECT id_item1 FROM frequentlyBoughtTogether WHERE id_item2 = ${id}`;
   connection.query(queryString, function(err, results, fields) {
     if (err) {

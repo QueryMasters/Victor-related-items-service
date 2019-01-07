@@ -9,9 +9,11 @@
   },
   "scripts": {
     "start": "nodemon server/index.js",
+    "start2": "node ./db/data_generation/generateSeedData.js && node ./server/index.js",
+    "start3": "node ./server/index.js",
     "react-dev": "webpack -d --watch",
     "startDb": "mysql -u root -p < ./db/schema.sql",
-    "seedDb": "node ./db/generateSeedData.js",
+    "seedDb": "node ./db/data_generation/generateSeedData.js",
     "test": "jest --config=jest.config.js"
   },
   "dependencies": {
@@ -21,6 +23,7 @@
     "express": "^4.16.4",
     "faker": "^4.1.0",
     "lodash": "^4.17.11",
+    "morgan": "^1.9.1",
     "mysql": "^2.16.0",
     "mysql2": "^1.6.4",
     "react": "^16.7.0",

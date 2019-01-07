@@ -1,12 +1,13 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const { getAllItems, getOneItem, getRelated, getFrequent, postMessage } = require(__dirname + '/../db/index.js');
-
+const morgan = require('morgan');
 const app = express();
 const PORT = 8888;
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
+app.use(morgan('tiny'));
 
 //middleware for setting CORS headers 
 app.use((req, res, next) => {
@@ -55,6 +56,7 @@ app.get('/api/related/:itemId', (req, res) => {
 
 // GET request for frequentlyTogetherItems
 app.get('/api/frequent/:itemId', (req, res) => {
+  console.log('The id in params are', req.params.itemId);
   let id = req.params.itemId;
   getFrequent(id, (err, data) => {
     if (err) {
