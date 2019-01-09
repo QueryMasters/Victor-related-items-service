@@ -1,54 +1,26 @@
 const faker = require('faker');
-const mysql = require('mysql');
-const Sequelize = require('sequelize');
-const mysqlConfig = require('../config.js');
 
-const connection = mysql.createConnection(mysqlConfig);
+const { connection, Product, Frequent, Related } = require('../postgresql/db');
 const { productImageURLs } = require('../productImages.js');
-
-connection.connect((err) => {
-  if (err) {
-    console.log(err);
-  } else {
-    console.log('Connected to database!!!');
-  }
-});
-
-// without password / with blank password
-// fix this config
-const sequelize = new Sequelize('fec', 'root', null, {
-  host: 'localhost',
-  dialect: 'mysql',
-  operatorsAliases: false,
-
-});
-
-sequelize
-  .authenticate()
-  .then(() => {
-    console.log('Connection has been established successfully.');
-  })
-  .catch((err) => {
-    console.error('Unable to connect to the database:', err);
-  });
 
 // Random Generation
 // Generate Item (num is total number of items), number of reviews is seeded as random for now
 const generateItems = (num) => {
-  let items = [];
+  const items = [];
+
   for (let i = 1; i <= num; i++) {
     let itemObject = {
-      itemName: faker.commerce.productName(),
+      name: faker.commerce.productName(),
       numberOfReviews: Math.floor(Math.random() * 10000 + 1),
       price: faker.commerce.price(),
       averageStarRating: Math.floor(Math.random() * (5)) + 1,
       availableOnPrime: (Math.random() < 0.8),
-      image: productImageURLs[Math.floor(Math.random() * (productImageURLs.length))][0],
+      image: faker.image.imageUrl(),
     };
 
     items.push(itemObject);
   }
-  // console.log(items);
+
   return items;
 };
 
@@ -161,8 +133,8 @@ const generateRelatedItems = (num) => {
 
 // Declare variables for generation
 
-const queryInterface = sequelize.getQueryInterface();
-const totalItems = 100;
+// const queryInterface = connection.getQueryInterface();
+const totalItems = 10000;
 
 // Call random generation functions to seed database
 // Generate Items, then creates random associations between items for frequentlyTogether and relatedItems tables
@@ -171,7 +143,10 @@ const items = generateItems(totalItems);
 const frequentItems = generateFrequentlyTogether(totalItems);
 const relatedItems = generateRelatedItems(totalItems);
 
-queryInterface.bulkInsert('item', items)
+console.log('ITEMS -------------------', items);
+process.exit();
+
+queryInterface.bulkInsert('products', items)
   .then(() => {
     let frequentItems = generateFrequentlyTogether(totalItems);
     let queryString = 'INSERT INTO frequentlyBoughtTogether (id_item1, id_item2) VALUES ';
@@ -207,7 +182,7 @@ queryInterface.bulkInsert('item', items)
       });
     });
   }).then(() => {
-    sequelize.close();
+    connection.close();
     process.exit();
   });
 

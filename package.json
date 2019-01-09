@@ -4,9 +4,6 @@
   "description": "",
   "author": "",
   "license": "",
-  "engines": {
-    "node": ">=6.13.0"
-  },
   "scripts": {
     "start": "nodemon server/index.js",
     "start2": "node ./db/data_generation/generateSeedData.js && node ./server/index.js",
@@ -24,8 +21,8 @@
     "faker": "^4.1.0",
     "lodash": "^4.17.11",
     "morgan": "^1.9.1",
-    "mysql": "^2.16.0",
-    "mysql2": "^1.6.4",
+    "pg": "^7.7.1",
+    "pg-hstore": "^2.3.2",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "sequelize": "^4.42.0",
@@ -40,7 +37,6 @@
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.7.1",
     "enzyme-to-json": "^3.3.5",
-    "eslint-config-hackreactor": "git://github.com/reactorcore/eslint-config-hackreactor",
     "jest": "^23.6.0",
     "puppeteer": "^1.11.0",
     "webpack": "^4.28.1",

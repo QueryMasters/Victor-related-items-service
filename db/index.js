@@ -52,19 +52,9 @@ const getFrequent = function (id, callback) {
   });
 };
 
-const postMessage = function (paramsArr) {
-  let queryString = `INSERT INTO reviews (body, headline, photoUrl, rating, id_item) VALUES`
-  connection.query(queryString, paramsArr, function(err, results, fields){
-    if (err) {
-      throw err;
-    }
-  });
-};
-
 module.exports = {
     getAllItems,
     getOneItem,
     getRelated,
     getFrequent,
-    postMessage
 };
