@@ -6,7 +6,7 @@ module.exports = (connection, Sequelize) => {
       allowNull: false
     },
     price: {
-      type: Sequelize.INTEGER,
+      type: Sequelize.FLOAT,
       allowNull: false
     },
     availableOnPrime: {

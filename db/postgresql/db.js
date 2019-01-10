@@ -9,6 +9,7 @@ const connection = new Sequelize(database, user, password, {
   host,
   dialect: 'postgres',
   operatorsAliases: false,
+  logging: false
 });
 
 connection.authenticate()
