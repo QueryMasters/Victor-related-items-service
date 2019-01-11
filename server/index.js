@@ -5,9 +5,9 @@ const cors = require('cors');
 const app = express();
 const PORT = 1337;
 
-const ProductRoutes = require('./routes/product.routes');
-const FrequentRoutes = require('./routes/frequent.routes');
-const RelatedRoutes = require('./routes/related.routes');
+const ProductRoutes = require('./routes/product.routes.pg');
+const FrequentRoutes = require('./routes/frequent.routes.pg');
+const RelatedRoutes = require('./routes/related.routes.pg');
 
 // MIDDLEWARE
 app.use(bodyParser.json());
@@ -23,9 +23,9 @@ app.use('/pg/products', ProductRoutes);
 app.use('/pg/related', RelatedRoutes);
 app.use('/pg/frequent', FrequentRoutes);
 
-app.use('/m/products', ProductRoutes);
-app.use('/m/related', RelatedRoutes);
-app.use('/m/frequent', FrequentRoutes);
+// app.use('/m/products', ProductRoutes);
+// app.use('/m/related', RelatedRoutes);
+// app.use('/m/frequent', FrequentRoutes);
 
 // app.get('/api/items', (req, res) => {
 //   getAllItems((err, data) => {

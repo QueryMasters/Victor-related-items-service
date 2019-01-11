@@ -24,7 +24,7 @@ const Product = ProductModel(connection, Sequelize);
 const Frequent = FrequentModel(connection, Sequelize);
 const Related = RelatedModel(connection, Sequelize);
 
-connection.sync({ force: true })
+connection.sync()
   .then(() => {
     console.log('SYNC complete');
   });

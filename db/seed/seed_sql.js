@@ -64,5 +64,12 @@ const insertFrequent = async () => {
 
 };  
 
-
-insertProducts(200000, 50);
+connection.authenticate()
+  .then(() => {
+    console.log('Connected to the database');
+    insertProducts(1, 50);
+  })
+  .catch(err => {
+    console.log(err);
+  });
+  
