@@ -92,27 +92,94 @@ const Delete_PG = (req, res) => {
 };
 
 const GetAll_M = (req, res) => {
-  res.send('Getall');
+  Product_M.find({}).limit(20)
+  .then(products => {
+    res.status(200).send(products);
+  })
+  .catch(err => {
+    res.status(500).send({ error: err });
+  });
 };
 
 const GetById_M = (req, res) => {
-  res.send('GetById');
+  const { id } = req.params;
+  Product_M.findById(id)
+    .then(product => {
+      if (product) {
+        res.status(200).send(product);
+      } else {
+        res.status(404).send();
+      }
+    })
+    .catch(err => {
+      res.status(500).send({ error: err });
+    });
 };
 
 const GetByName_M = (req, res) => {
-  res.send('GetByName');
+  const { name } = req.params;
+  Product_M.findOne({ name })
+    .then(product => {
+      if (product) {
+        res.status(200).send(product);
+      } else {
+        res.status(404).send();
+      }
+    })
+    .catch(err => {
+      res.status(500).send({ error: err });
+    });
 };
 
 const Create_M = (req, res) => {
-  res.send('Create');
+  const { name, price, availableOnPrime, numberOfReviews, averageStarRating, image } = req.body;
+  Product_M.create({
+    name,
+    price,
+    availableOnPrime,
+    numberOfReviews,
+    averageStarRating,
+    image
+  })
+    .then((product) => {
+      res.status(200).send(product);
+    })
+    .catch(error => {
+      res.status(500).send({ error })
+    });
 };
 
 const Update_M = (req, res) => {
-  res.send('Update');
+  const { id } = req.params;
+  const { name, price, availableOnPrime, numberOfReviews, averageStarRating, image } = req.body;
+  Product_M.updateOne({
+    id
+  },
+  {
+    name,
+    price,
+    availableOnPrime,
+    numberOfReviews,
+    averageStarRating,
+    image
+  })
+    .then((product) => {
+      res.status(200).send(product);
+    })
+    .catch(error => {
+      res.status(500).send({ error })
+    });
 };
 
 const Delete_M = (req, res) => {
-  res.send('Delete');
+  const { id } = req.params;
+  Product_M.deleteOne({ id })
+    .then(() => {
+      res.status(200).send();
+    })
+    .catch(err => {
+      res.status(500).send({ error: err });
+    });
 };
 
 module.exports = {
