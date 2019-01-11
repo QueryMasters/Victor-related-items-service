@@ -152,10 +152,7 @@ const Create_M = (req, res) => {
 const Update_M = (req, res) => {
   const { id } = req.params;
   const { name, price, availableOnPrime, numberOfReviews, averageStarRating, image } = req.body;
-  Product_M.updateOne({
-    id
-  },
-  {
+  Product_M.findByIdAndUpdate(id, {
     name,
     price,
     availableOnPrime,
@@ -173,7 +170,7 @@ const Update_M = (req, res) => {
 
 const Delete_M = (req, res) => {
   const { id } = req.params;
-  Product_M.deleteOne({ id })
+  Product_M.findByIdAndDelete(id)
     .then(() => {
       res.status(200).send();
     })
