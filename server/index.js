@@ -19,9 +19,13 @@ app.use(cors());
 app.use(express.static(__dirname + '/../public'));
 
 // ROUTES
-app.use('/products', ProductRoutes);
-app.use('/related', RelatedRoutes);
-app.use('/frequent', FrequentRoutes);
+app.use('/pg/products', ProductRoutes);
+app.use('/pg/related', RelatedRoutes);
+app.use('/pg/frequent', FrequentRoutes);
+
+app.use('/m/products', ProductRoutes);
+app.use('/m/related', RelatedRoutes);
+app.use('/m/frequent', FrequentRoutes);
 
 // app.get('/api/items', (req, res) => {
 //   getAllItems((err, data) => {

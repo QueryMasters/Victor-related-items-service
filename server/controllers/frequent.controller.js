@@ -1,30 +1,55 @@
 const { FrequentSQL } = require('../../db/postgresql/models/product.model');
 const { Frequent } = require('../../db/mongo/models/product.model');
 
-const GetAll = (req, res) => {
+const GetAll_PG = (req, res) => {
 
 };
 
-const GetById = (req, res) => {
+const GetById_PG = (req, res) => {
 
 };
 
-const Create = (req, res) => {
+const Create_PG = (req, res) => {
 
 };
 
-const Update = (req, res) => {
+const Update_PG = (req, res) => {
 
 };
 
-const Delete = (req, res) => {
+const Delete_PG = (req, res) => {
+
+};
+
+const GetAll_M = (req, res) => {
+
+};
+
+const GetById_M = (req, res) => {
+
+};
+
+const Create_M = (req, res) => {
+
+};
+
+const Update_M = (req, res) => {
+
+};
+
+const Delete_M = (req, res) => {
 
 };
 
 module.exports = {
-  GetAll,
-  GetById,
-  Create,
-  Update,
-  Delete
+  GetAll_PG,
+  GetById_PG,
+  Create_PG,
+  Update_PG,
+  Delete_PG,
+  GetAll_M,
+  GetById_M,
+  Create_M,
+  Update_M,
+  Delete_M
 };
