@@ -1,77 +1,67 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const { getAllItems, getOneItem, getRelated, getFrequent, postMessage } = require(__dirname + '/../db/index.js');
 const morgan = require('morgan');
+const cors = require('cors');
 const app = express();
-const PORT = 8888;
+const PORT = 1337;
 
+const ProductRoutes = require('./routes/product.routes');
+const FrequentRoutes = require('./routes/frequent.routes');
+const RelatedRoutes = require('./routes/related.routes');
+
+// MIDDLEWARE
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(morgan('tiny'));
+app.use(cors());
 
-//middleware for setting CORS headers 
-app.use((req, res, next) => {
-  res.header("Access-Control-Allow-Origin", "*");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
-  next();
-});
-
+// STATIC FILES
 app.use(express.static(__dirname + '/../public'));
 
+// ROUTES
+app.use('/pg/products', ProductRoutes);
+app.use('/pg/related', RelatedRoutes);
+app.use('/pg/frequent', FrequentRoutes);
 
-// GET request for items
-app.get('/api/items', (req, res) => {
-  // get all items from database
-  console.log('I see you from the Item Request!');
-  getAllItems((err, data) => {
-    if (err) {
-      throw err;
-    }
-    res.send(data);
-  });
-  // I think I want to make the getAllItems function within index.html
-});
+app.use('/m/products', ProductRoutes);
+app.use('/m/related', RelatedRoutes);
+app.use('/m/frequent', FrequentRoutes);
 
-// GET request for specific item 
-app.get('/api/items/:itemId', (req, res) => {
-  let id = req.params.itemId;
-  getOneItem(id, (err, data) => {
-    if (err) {
-      throw err;
-    }
-    res.send(data);
-  })
-});
+// app.get('/api/items', (req, res) => {
+//   getAllItems((err, data) => {
+//     res.send(data);
+//   });
+// });
 
-// GET request for related items
-app.get('/api/related/:itemId', (req, res) => {
-  let id = req.params.itemId;
-  getRelated(id, (err, data) => {
-    if (err) {
-      throw err;
-    }
-    res.send(data);
-  })
-});
+// // GET request for specific item 
+// app.get('/api/items/:itemId', (req, res) => {
+//   let id = req.params.itemId;
+//   getOneItem(id, (err, data) => {
+//     res.send(data);
+//   })
+// });
 
-// GET request for frequentlyTogetherItems
-app.get('/api/frequent/:itemId', (req, res) => {
-  console.log('The id in params are', req.params.itemId);
-  let id = req.params.itemId;
-  getFrequent(id, (err, data) => {
-    if (err) {
-      throw err;
-    }
-    res.send(data);
-  });
-});
+// // GET request for related items
+// app.get('/api/related/:itemId', (req, res) => {
+//   let id = req.params.itemId;
+//   getRelated(id, (err, data) => {
+//     res.send(data);
+//   })
+// });
 
-// POST request for messages
-app.post('/api/messages', (req, res) => {
-  let params = req.body;
-  postMessage(params);
-});
+// // GET request for frequentlyTogetherItems
+// app.get('/api/frequent/:itemId', (req, res) => {
+//   let id = req.params.itemId;
+//   getFrequent(id, (err, data) => {
+//     res.send(data);
+//   });
+// });
 
+// // POST request for messages
+// app.post('/api/messages', (req, res) => {
+//   let params = req.body;
+//   postMessage(params);
+// });
 
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
