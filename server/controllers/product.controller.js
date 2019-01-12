@@ -1,5 +1,5 @@
 const { Product: Product_PG } = require('../../db/postgresql/db');
-const { Product: Product_M } = require('../../db/mongo/models/product.model');
+const { Product: Product_M } = require('../../db/mongo/db');
 
 const GetAll_PG = (req, res) => {
   Product_PG.findAll({ limit: 20 })

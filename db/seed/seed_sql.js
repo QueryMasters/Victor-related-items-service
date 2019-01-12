@@ -1,5 +1,4 @@
 const faker = require('faker');
-const shortid = require('shortid');
 
 const { connection, Product, Frequent, Related } = require('../postgresql/db');
 
@@ -50,24 +49,63 @@ const insertProducts = async (batchSize, numberOfBatches) => {
   }
 };
 
-const insertRelated = async (batchSize) => {
-  let related = [];
-  
-  for (let i = 0; i < batchSize; i++) {
+// const insertRelated = async (batchSize, numberOfBatches) => {
+//   let related = [];
+//   let rand = 0;
+//   let pairs = [];
 
-  }
+//   try {
+//     for (let x = 0; x < numberOfBatches; x++) {
+//       for (let i = 1; i <= batchSize; i++) {
+//         rand = randomBetweenTwo(1, 3);
+//         if (i + (x * batchSize) + rand > batchSize * numberOfBatches) {
+//           for (let j = rand; j > 0; j--) {
+//             pairs.push({
+//               id_product_1: i + (x * batchSize),
+//               id_product_2: i + (x * batchSize) - j
+//             });
+//           }
+//         } else {
+//           for (let j = 1; j <= rand; j++) {
+//             if (x === 0) {
+//               pairs.push({
+//                 id_product_1: i,
+//                 id_product_2: i + j
+//               });
+//             } else {
+//               pairs.push({
+//                 id_product_1: i + (x * batchSize),
+//                 id_product_2: i + (x * batchSize) + j
+//               });
+//             }
+//           }
+//         }
+//       }
+//       console.log('Pairs: ', pairs);
+//       await Related.bulkCreate(pairs);
+//     }
+//   } catch (err) {
+//     console.log(err.name);
+//     console.log(Object.keys(err));
+//     console.log(err.original.toString().slice(0, 2000))
+//     console.log(err.errors);
+//   } finally {
+//     console.log('Done inserting Related products');
+//     process.exit();
+//   }
 
-  return related;
-};
+//   return related;
+// };
 
-const insertFrequent = async () => {
+// const insertFrequent = async () => {
 
-};  
+// };  
 
 connection.authenticate()
   .then(() => {
     console.log('Connected to the database');
-    insertProducts(1, 50);
+    insertProducts(200000, 50);
+    // insertRelated(5, 50);
   })
   .catch(err => {
     console.log(err);

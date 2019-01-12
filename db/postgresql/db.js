@@ -3,7 +3,7 @@ const { database, user, password, port, host} = require('./config');
 
 const ProductModel = require('./models/product.model');
 const FrequentModel = require('./models/frequent.model');
-const RelatedModel = require('./models/frequent.model');
+const RelatedModel = require('./models/related.model');
 
 const connection = new Sequelize(database, user, password, {
   host,
