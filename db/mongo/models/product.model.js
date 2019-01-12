@@ -2,6 +2,9 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
+  _id: {
+    type: Schema.Types.Number
+  },
   name: {
     type: Schema.Types.String,
     index: true
@@ -10,7 +13,7 @@ const productSchema = new Schema({
   availableOnPrime: Schema.Types.Boolean,
   numberOfReviews: Schema.Types.Number,
   averageStarRating: Schema.Types.Number,
-  image: Schema.Types.Boolean,
+  image: Schema.Types.String,
 });
 
 module.exports = productSchema;
