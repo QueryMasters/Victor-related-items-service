@@ -6,7 +6,8 @@ module.exports = (connection, Sequelize) => {
         model: 'products',
         key: 'id'
       },
-      allowNull: false
+      allowNull: false,
+      unique: 'frequents_unique'
     },
     id_product_2: {
       type: Sequelize.INTEGER,
@@ -14,7 +15,10 @@ module.exports = (connection, Sequelize) => {
         model: 'products',
         key: 'id'
       },
-      allowNull: false
+      allowNull: false,
+      unique: 'frequents_unique'
     }
+  }, {
+    timestamps: false,
   });
 };

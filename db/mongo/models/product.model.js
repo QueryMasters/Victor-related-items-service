@@ -14,6 +14,8 @@ const productSchema = new Schema({
   numberOfReviews: Schema.Types.Number,
   averageStarRating: Schema.Types.Number,
   image: Schema.Types.String,
+  relatedProducts: Schema.Types.Array,
+  frequentProducts: Schema.Types.Array
 });
 
 module.exports = productSchema;
