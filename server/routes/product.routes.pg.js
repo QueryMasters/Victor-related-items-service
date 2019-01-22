@@ -1,12 +1,12 @@
 const ProductController = require('../controllers/product.controller');
 const router = require('express').Router();
 
-router.get('/pg/', ProductController.GetAll_PG);
-router.get('/pg/id/:id', ProductController.GetById_PG);
-router.get('/pg/name/:name', ProductController.GetByName_PG);
-router.post('/pg/', ProductController.Create_PG);
-router.patch('/pg/:id', ProductController.Update_PG);
-router.delete('/pg/:id', ProductController.Delete_PG);
+router.get('/', ProductController.GetAll_PG);
+router.get('/id/:id', ProductController.GetById_PG);
+router.get('/name/:name', ProductController.GetByName_PG);
+router.post('/', ProductController.Create_PG);
+router.patch('/id/:id', ProductController.Update_PG);
+router.delete('/id/:id', ProductController.Delete_PG);
 
 router.get('/m/', ProductController.GetAll_M);
 router.get('/m/id/:id', ProductController.GetById_M);

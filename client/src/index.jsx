@@ -33,7 +33,7 @@ class App extends React.Component {
             showReviews: false,
 
             // current item
-            itemId: 5 // id of current item
+            itemId: 10 // id of current item
         }
 
         // click bindings
@@ -89,60 +89,27 @@ class App extends React.Component {
             frequentItems:[],
             frequentItemsInfo:[]
         });
-        axios.get(`/api/related/${this.state.itemId}`)
+        axios.get(`/related/id/${this.state.itemId}`)
         .then((res) => {
             let data = res.data;
-            this.setState({
-                relatedItems: data,
-            });
-            data.forEach((datum) => {
-                axios.get(`/api/items/${datum.id_item1}`)
-                .then((res) => {
-                    this.setState({
-                        relatedItemInfo: [...this.state.relatedItemInfo, ...res.data],
-                    });
-                })
-                .then(() => {
-                    // trying to figure out why this won't work as a promise after first then statement, it only works are a promise here
-                    this.setState({
-                        relatedItemsCurrent: this.chunk(this.state.relatedItemInfo, this.state.maxRelatedLength)
-                    });
-                });
-            });
-            // console.log('let us see if this is called more than once 1',this.state.relatedItemsCurrent);
+            this.setState(state => ({
+                relatedItems: data.map(product => product.id),
+                relatedItemInfo: [...state.relatedItemInfo, ...res.data],
+                relatedItemsCurrent: this.chunk(data, this.state.maxRelatedLength)
+            }));
         });
         // after click, we need to update page,
         // including most state props
-        axios.get(`/api/frequent/${this.state.itemId}`)
+        axios.get(`/frequent/id/${this.state.itemId}`)
         .then((res) => {
             let data = res.data;
-            this.setState({
+            res.data.forEach(datum => {
+                datum = this.addChecked(datum);
+            });
+            this.setState(state => ({
                 frequentItems: data,
-            });
-            axios.get(`/api/items/${this.state.itemId}`)
-            .then((res) => {
-                res.data.forEach(datum => {
-                    datum = this.addChecked(datum);
-                });
-                this.setState({
-                    frequentItemsInfo: [...this.state.frequentItemsInfo, ...res.data],
-                    // checkItems: [...this.state.checkItems, addChecked(...res.data)]
-                });
-            });
-            data.forEach((datum) => {
-                axios.get(`/api/items/${datum.id_item1}`)
-                .then((res) => {
-                    res.data.forEach(datum => {
-                        datum = this.addChecked(datum);
-                    });
-                    this.setState({
-                        frequentItemsInfo: [...this.state.frequentItemsInfo, ...res.data],
-                        // checkItems: [...this.state.checkItems, addChecked(...res.data)]
-                    });
-                    // console.log('frequentItemsInfo is, ', this.state.frequentItemsInfo);
-                })
-                
-            });
+                frequentItemsInfo: [...state.frequentItemsInfo, ...res.data],
+            }));
         });
     }
 

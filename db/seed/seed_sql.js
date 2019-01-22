@@ -162,9 +162,17 @@ const insertFrequent = async (batchSize, numberOfBatches) => {
 connection.authenticate()
   .then(() => {
     console.log('Connected to the database');
-    // insertProducts(200000, 50);
-    insertFrequent(200000, 50);
-    // insertRelated(200000, 50);
+    // insertProducts(10, 10);
+    // insertFrequent(10, 10);
+    // insertRelated(10, 10);
+    // return connection.sync({ force: true });
+    return connection.sync();
+  })
+  .then(() => {
+    console.log('Database Synced');
+    // insertProducts(10, 10);
+    // insertFrequent(10, 10);
+    // insertRelated(10, 10);
   })
   .catch(err => {
     console.log(err);

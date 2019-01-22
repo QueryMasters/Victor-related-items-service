@@ -1,3 +1,4 @@
+require('newrelic');
 const express = require('express');
 const bodyParser = require('body-parser');
 const morgan = require('morgan');
@@ -11,17 +12,18 @@ const RelatedRoutes = require('./routes/related.routes.pg');
 
 // MIDDLEWARE
 app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.urlencoded({ extended: true }));
 app.use(morgan('tiny'));
 app.use(cors());
-
-// STATIC FILES
-app.use(express.static(__dirname + '/../public'));
 
 // ROUTES
 app.use('/products', ProductRoutes);
 app.use('/related', RelatedRoutes);
 app.use('/frequent', FrequentRoutes);
+
+// STATIC FILES
+app.use(express.static(__dirname + '/../public'));
+
 
 // app.get('/api/items', (req, res) => {
 //   getAllItems((err, data) => {

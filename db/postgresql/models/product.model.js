@@ -1,5 +1,11 @@
 module.exports = (connection, Sequelize) => {
   return connection.define('product', {
+    id: {
+      type: Sequelize.INTEGER,
+      primaryKey: true,
+      autoIncrement: true,
+      allowNull: false
+    },
     name: {
       type: Sequelize.STRING,
       unique: true,

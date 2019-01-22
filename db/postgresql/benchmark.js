@@ -30,8 +30,8 @@ const runBechmark = async (index, n) => {
   for (let i = 0; i <= n; i++) {
     randomNumber = getRandomInt(startIndex, 10000000);
     start = process.hrtime();
-    // await client.query('SELECT * FROM products WHERE id = $1', [randomNumber]);
-    await client.query('SELECT * FROM products WHERE id IN (SELECT r.id_product_2 FROM products p INNER JOIN relateds r ON p.id=r.id_product_1 WHERE p.id=$1)', [randomNumber]);
+    await client.query('SELECT * FROM products WHERE id = $1', [randomNumber]);
+    // await client.query('SELECT * FROM products WHERE id IN (SELECT r.id_product_2 FROM products p INNER JOIN relateds r ON p.id=r.id_product_1 WHERE p.id=$1)', [randomNumber]);
     // await client.query('SELECT * FROM products WHERE id IN (SELECT f.id_product_2 FROM products p INNER JOIN frequents f ON p.id=f.id_product_1 WHERE p.id=$1)', [randomNumber]);
     end = process.hrtime(start);
     queryTime = prettyHrtime(end, { precise: true });

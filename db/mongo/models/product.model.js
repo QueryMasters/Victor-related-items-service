@@ -3,7 +3,7 @@ const Schema = mongoose.Schema;
 
 const productSchema = new Schema({
   _id: {
-    type: Schema.Types.Number
+    type: Schema.Types.Number,
   },
   name: {
     type: Schema.Types.String,
@@ -14,8 +14,14 @@ const productSchema = new Schema({
   numberOfReviews: Schema.Types.Number,
   averageStarRating: Schema.Types.Number,
   image: Schema.Types.String,
-  relatedProducts: Schema.Types.Array,
-  frequentProducts: Schema.Types.Array
+  relatedProducts: {
+    type: [Schema.Types.Number],
+    ref: 'product'
+  },
+  frequentProducts: {
+    type: [Schema.Types.Number],
+    ref: 'product'
+  }
 });
 
 module.exports = productSchema;
