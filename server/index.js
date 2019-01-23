@@ -20,6 +20,10 @@ app.use(cors());
 app.use('/health', (req, res) => {
   res.status(200).send();
 });
+// loader.io
+app.use('/loaderio-ace0844399faef116f0e8ada012351f4/', (req, res) => {
+  res.sendFile('./');
+});
 app.use('/products', ProductRoutes);
 app.use('/related', RelatedRoutes);
 app.use('/frequent', FrequentRoutes);
