@@ -3,5 +3,5 @@ module.exports = {
   password: 'student',
   database: 'fec', // default process.env.PGDATABASE || process.env.USER
   port: 5432, // default process.env.PGPORT,
-  host: 'localhost'
+  host: '18.223.113.210'
 };

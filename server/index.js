@@ -17,6 +17,9 @@ app.use(morgan('tiny'));
 app.use(cors());
 
 // ROUTES
+app.use('/health', (req, res) => {
+  res.status(200).send();
+});
 app.use('/products', ProductRoutes);
 app.use('/related', RelatedRoutes);
 app.use('/frequent', FrequentRoutes);
