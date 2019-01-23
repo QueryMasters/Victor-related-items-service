@@ -27,43 +27,6 @@ app.use('/frequent', FrequentRoutes);
 // STATIC FILES
 app.use(express.static(__dirname + '/../public'));
 
-
-// app.get('/api/items', (req, res) => {
-//   getAllItems((err, data) => {
-//     res.send(data);
-//   });
-// });
-
-// // GET request for specific item 
-// app.get('/api/items/:itemId', (req, res) => {
-//   let id = req.params.itemId;
-//   getOneItem(id, (err, data) => {
-//     res.send(data);
-//   })
-// });
-
-// // GET request for related items
-// app.get('/api/related/:itemId', (req, res) => {
-//   let id = req.params.itemId;
-//   getRelated(id, (err, data) => {
-//     res.send(data);
-//   })
-// });
-
-// // GET request for frequentlyTogetherItems
-// app.get('/api/frequent/:itemId', (req, res) => {
-//   let id = req.params.itemId;
-//   getFrequent(id, (err, data) => {
-//     res.send(data);
-//   });
-// });
-
-// // POST request for messages
-// app.post('/api/messages', (req, res) => {
-//   let params = req.body;
-//   postMessage(params);
-// });
-
 app.listen(PORT, () => {
   console.log(`listening on port ${PORT}`);
 });
