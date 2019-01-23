@@ -1,9 +1,9 @@
 const { connection } = require('../../db/postgresql/db2');
 const {promisify} = require('util');
-const redis = require("redis");
-const client = redis.createClient();
-const getAsync = promisify(client.get).bind(client);
-const setAsync = promisify(client.set).bind(client);
+// const redis = require("redis");
+// const client = redis.createClient();
+// const getAsync = promisify(client.get).bind(client);
+// const setAsync = promisify(client.set).bind(client);
 
 const GetAll_PG = (req, res) => {
 
@@ -12,14 +12,14 @@ const GetAll_PG = (req, res) => {
 const GetById_PG = async (req, res) => {
   const { id } = req.params;
 
-  let redisResult = await getAsync('related_' + id);
-  if (redisResult) {
-    return res.status(200).send(JSON.parse(redisResult));
-  }
+  // let redisResult = await getAsync('related_' + id);
+  // if (redisResult) {
+  //   return res.status(200).send(JSON.parse(redisResult));
+  // }
 
   try {
     let result = await connection.query('SELECT * FROM products WHERE id IN (SELECT r.id_product_2 FROM products p INNER JOIN relateds r ON p.id=r.id_product_1 WHERE p.id=$1)', [id]);
-    setAsync('related_' + id, JSON.stringify(result.rows));
+    // setAsync('related_' + id, JSON.stringify(result.rows));
   
     if (result.rowCount > 0) {
       return res.status(200).send(result.rows);
@@ -27,7 +27,6 @@ const GetById_PG = async (req, res) => {
       return res.status(404).send();
     }
   } catch (err) {
-    console.log(err);
     res.status(500).send({ error: err });
   }
 };
