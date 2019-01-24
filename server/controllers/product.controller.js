@@ -2,11 +2,7 @@ const { connection } = require('../../db/postgresql/db2');
 // const { Product: Product_PG } = require('../../db/postgresql/db');
 // const { Product: Product_M } = require('../../db/mongo/db');
 
-const {promisify} = require('util');
-// const redis = require("redis");
-// const client = redis.createClient();
-// const getAsync = promisify(client.get).bind(client);
-// const setAsync = promisify(client.set).bind(client);
+const { getAsync, setAsync } = require('../../db/redis/redis');
 
 const GetAll_PG = (req, res) => {
   Product_PG.findAll({ limit: 20 })
@@ -21,14 +17,14 @@ const GetAll_PG = (req, res) => {
 const GetById_PG = async (req, res) => {
   const { id } = req.params;
 
-  // let redisResult = await getAsync(id);
-  // if (redisResult) {
-  //   return res.status(200).send(JSON.parse(redisResult));
-  // }
+  let redisResult = await getAsync(id);
+  if (redisResult) {
+    return res.status(200).send(JSON.parse(redisResult));
+  }
 
   try {
     let result = await connection.query('SELECT * FROM products WHERE id = $1', [id]);
-    // setAsync(id, JSON.stringify(result.rows), 'EX', 60);
+    setAsync(id, JSON.stringify(result.rows), 'EX', 60);
     
     if (result.rowCount > 0) {
       return res.status(200).send(result.rows);
@@ -43,14 +39,14 @@ const GetById_PG = async (req, res) => {
 const GetByName_PG = async (req, res) => {
   const { name } = req.params;
 
-  // let redisResult = await getAsync(name);
-  // if (redisResult) {
-  //   return res.status(200).send(JSON.parse(redisResult));
-  // }
+  let redisResult = await getAsync(name);
+  if (redisResult) {
+    return res.status(200).send(JSON.parse(redisResult));
+  }
 
   try {
     let result = await connection.query('SELECT * FROM products WHERE name = $1', [name]);
-    // setAsync(name, JSON.stringify(result.rows), 'EX', 60);
+    setAsync(name, JSON.stringify(result.rows), 'EX', 60);
   
     if (result.rowCount > 0) {
       return res.status(200).send(result.rows);
