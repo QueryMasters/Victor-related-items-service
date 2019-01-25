@@ -19,13 +19,14 @@ const GetById_PG = async (req, res) => {
 
   let redisResult = await getAsync(id);
   if (redisResult) {
+    console.log('REDIS HIT: ', redisResult);
     return res.status(200).send(JSON.parse(redisResult));
   }
 
   try {
     let result = await connection.query('SELECT * FROM products WHERE id = $1', [id]);
     setAsync(id, JSON.stringify(result.rows), 'EX', 60);
-    
+    console.log('POSTGRES HIT');
     if (result.rowCount > 0) {
       return res.status(200).send(result.rows);
     } else {
