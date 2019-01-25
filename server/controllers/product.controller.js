@@ -26,7 +26,7 @@ const GetById_PG = async (req, res) => {
   try {
     let result = await connection.query('SELECT * FROM products WHERE id = $1', [id]);
     setAsync(id, JSON.stringify(result.rows), 'EX', 60);
-    console.log('POSTGRES HIT');
+    console.log('POSTGRES HIT', result);
     if (result.rowCount > 0) {
       return res.status(200).send(result.rows);
     } else {

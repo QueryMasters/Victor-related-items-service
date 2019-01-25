@@ -12,12 +12,14 @@ const GetById_PG = async (req, res) => {
 
   let redisResult = await getAsync('frequent_' + id);
   if (redisResult) {
+    console.log('REDIS HIT: ', redisResult);
     return res.status(200).send(JSON.parse(redisResult));
   }
 
   try {
     let result = await connection.query('SELECT * FROM products WHERE id IN (SELECT f.id_product_2 FROM products p INNER JOIN frequents f ON p.id=f.id_product_1 WHERE p.id=$1)', [id]);
     setAsync('frequent_' + id, JSON.stringify(result.rows));
+    console.log('POSTGRES HIT', result);
   
     if (result.rowCount > 0) {
       return res.status(200).send(result.rows);
